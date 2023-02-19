@@ -14,7 +14,7 @@ class CommandParser
         commands.Add("fight", new FightCommand());
     }
 
-    public void Parse(Player player, string input)
+    public ICommand Parse(string input)
     {
         var parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         var commandName = parts[0].ToLower();
@@ -22,9 +22,9 @@ class CommandParser
         if (!commands.TryGetValue(commandName, out ICommand command))
         {
             Console.WriteLine("Invalid command.");
-            return;
+            return null;
         }
 
-        command.Execute(player, parts.Skip(1).ToArray());
+        return command;
     }
 }

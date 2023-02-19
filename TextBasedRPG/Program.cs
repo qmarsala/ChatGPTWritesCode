@@ -19,8 +19,15 @@ class Program
             // Read user input from console
             var input = Console.ReadLine().Trim();
 
-            // Parse user input and execute command
-            commandParser.Parse(player, input);
+            // Parse user input
+            var command = commandParser.Parse(input);
+
+            // Execute command
+            if (command != null)
+            {
+                var parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                command.Execute(player, parts.Skip(1).ToArray());
+            }
         }
     }
 }
