@@ -1,0 +1,40 @@
+# .NET Core / Visual Studio temporary files
+*.vs/
+*.vscode/
+*_Resharper*
+*.ReSharper*
+*.dotCover*
+*.suo
+*.user
+*.old
+*.bak
+*.Cache
+*.Log
+/.vsconfig
+
+# Build results
+bin/
+obj/
+
+# Visual Studio files
+*.userprefs
+*.sln.ide
+*.csproj.user
+*.csproj.nuget.g.props
+*.csproj.nuget.g.targets
+
+# NuGet packages
+*.nuget.props
+*.nuget.targets
+Packages/
+*.nupkg
+*.snupkg
+/.localhistory/
+# Rider files
+.idea/
+*.sln.iml
+*.ipr
+*.iws
+
+# MSTest test Results
+TestResults/
