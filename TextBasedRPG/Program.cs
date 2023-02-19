@@ -36,7 +36,7 @@ class TextBasedRPG
         this.commandParser = new CommandParser();
     }
 
-    public void ExecuteCommand(string input)
+    public bool ExecuteCommand(string input)
     {
         // Parse user input
         var command = commandParser.Parse(input);
@@ -46,6 +46,13 @@ class TextBasedRPG
         {
             var parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             command.Execute(player, parts.Skip(1).ToArray());
+            if (player.Health <= 0)
+            {
+                Console.WriteLine("You have died. Game over.");
+                return false;
+            }
+
         }
+        return true;
     }
 }

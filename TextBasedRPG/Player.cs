@@ -3,7 +3,7 @@ namespace TextBasedRPG;
 public class Player
 {
     public string Name { get; set; }
-    public int HitPoints { get; set; } = 10;
+    public int Health { get; set; } = 10;
 
     public FishingSkill Fishing { get; set; } = new FishingSkill();
     public WoodcuttingSkill Woodcutting { get; set; } = new WoodcuttingSkill();
