@@ -7,8 +7,8 @@ class Program
         // Create a new player
         var player = new Player();
 
-        // Create a command parser
-        var commandParser = new CommandParser();
+        // Create a new game object
+        var game = new TextBasedRPG(player);
 
         // Main game loop
         while (true)
@@ -19,15 +19,33 @@ class Program
             // Read user input from console
             var input = Console.ReadLine().Trim();
 
-            // Parse user input
-            var command = commandParser.Parse(input);
+            // Execute user command
+            game.ExecuteCommand(input);
+        }
+    }
+}
 
-            // Execute command
-            if (command != null)
-            {
-                var parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                command.Execute(player, parts.Skip(1).ToArray());
-            }
+class TextBasedRPG
+{
+    private readonly Player player;
+    private readonly CommandParser commandParser;
+
+    public TextBasedRPG(Player player)
+    {
+        this.player = player;
+        this.commandParser = new CommandParser();
+    }
+
+    public void ExecuteCommand(string input)
+    {
+        // Parse user input
+        var command = commandParser.Parse(input);
+
+        // Execute command
+        if (command != null)
+        {
+            var parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            command.Execute(player, parts.Skip(1).ToArray());
         }
     }
 }
