@@ -4,23 +4,19 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Create a new player
-        var player = new Player();
+        // Create a new player with starting stats
+        var player = new Player("John");
 
-        // Create a new game object
-        var game = new TextBasedRPG(player);
+        // Create a new command parser
+        var commandParser = new CommandParser();
 
-        // Main game loop
-        while (true)
-        {
-            // Display prompt for user input
-            Console.WriteLine("Enter a command:");
+        // Create a new game instance
+        var game = new TextBasedRPG(player, commandParser);
 
-            // Read user input from console
-            var input = Console.ReadLine().Trim();
+        // Run the game loop
+        game.Run();
 
-            // Execute user command
-            game.ExecuteCommand(input);
-        }
+        // Game has ended
+        Console.WriteLine("Thanks for playing!");
     }
 }
