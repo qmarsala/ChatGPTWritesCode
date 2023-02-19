@@ -1,3 +1,5 @@
+namespace TextBasedRPG;
+
 public class CombatSkill : ISkill
 {
     public string Name { get; } = "Combat";

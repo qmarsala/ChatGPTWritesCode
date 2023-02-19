@@ -1,3 +1,5 @@
+namespace TextBasedRPG;
+
 public class CookingSkill : ISkill
 {
     public string Name { get; } = "Cooking";

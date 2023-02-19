@@ -1,3 +1,5 @@
+namespace TextBasedRPG;
+
 public class FishingSkill : ISkill
 {
     public string Name { get; } = "Fishing";

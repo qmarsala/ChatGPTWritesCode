@@ -1,9 +1,14 @@
-﻿partial class Program
+﻿namespace TextBasedRPG;
+
+class Program
 {
     static void Main(string[] args)
     {
         // Create a new player
         var player = new Player();
+
+        // Create a command parser
+        var commandParser = new CommandParser();
 
         // Main game loop
         while (true)
@@ -12,38 +17,10 @@
             Console.WriteLine("Enter a command:");
 
             // Read user input from console
-            var input = Console.ReadLine().Trim().ToLower();
+            var input = Console.ReadLine().Trim();
 
-            // Process user input
-            if (input == "quit")
-            {
-                // Exit the game loop
-                break;
-            }
-            else if (input.StartsWith("fish"))
-            {
-                // TODO: Implement fishing logic
-            }
-            else if (input.StartsWith("chop"))
-            {
-                // TODO: Implement woodcutting logic
-            }
-            else if (input.StartsWith("make fire"))
-            {
-                // TODO: Implement firemaking logic
-            }
-            else if (input.StartsWith("cook"))
-            {
-                // TODO: Implement cooking logic
-            }
-            else if (input.StartsWith("fight"))
-            {
-                // TODO: Implement combat logic
-            }
-            else
-            {
-                Console.WriteLine("Invalid command.");
-            }
+            // Parse user input and execute command
+            commandParser.Parse(player, input);
         }
     }
 }

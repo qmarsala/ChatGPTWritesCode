@@ -1,3 +1,5 @@
+namespace TextBasedRPG;
+
 public class WoodcuttingSkill : ISkill
 {
     public string Name { get; } = "Woodcutting";

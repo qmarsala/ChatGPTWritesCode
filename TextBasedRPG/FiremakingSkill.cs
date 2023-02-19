@@ -1,3 +1,5 @@
+namespace TextBasedRPG;
+
 public class FiremakingSkill : ISkill
 {
     public string Name { get; } = "Firemaking";
