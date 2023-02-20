@@ -36,3 +36,22 @@ This is looking great!  But I think we need to add a story.  What do you think o
 ```
 That's a great idea! The story of the game could be about a group of adventurers who are on a quest to find a legendary treasure. They need to hone their skills in fishing, woodcutting, firemaking, combat, and cooking in order to survive in the wild and overcome the challenges they will face along the way. As they progress, they encounter various obstacles and enemies that they must defeat using their skills, and eventually they reach their destination and find the treasure.
 ```
+
+what skills do you think our game should have? do you think we should get rid of any we already have or add any new ones?
+```
+Based on the theme of our game, we could consider the following skills:
+
+Hunting - ability to track and hunt wild game for food and materials
+Foraging - ability to find and identify edible plants, berries, and nuts in the wilderness
+Shelter Building - ability to build shelters using natural materials found in the environment
+Navigation - ability to navigate through the wilderness using natural landmarks and the sun/stars
+First Aid - ability to administer basic first aid to treat injuries and illnesses
+Trapping - ability to set traps to catch game or to protect a campsite from wildlife
+Survivalism - general knowledge and skills for survival in the wilderness, including starting fires, purifying water, and making tools.
+We don't necessarily need to get rid of any of the existing skills, but we may want to adjust the values or add more methods to make them more relevant to the game's theme.
+```
+
+can you remind me the theme of the game?
+```
+Sure! The theme of our game is survival in a wilderness setting, where the player must explore, gather resources, and build tools to survive.
+```
