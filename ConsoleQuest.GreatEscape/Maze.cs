@@ -44,5 +44,10 @@ namespace ConsoleQuest
         {
             Grid[row, col] = false;
         }
+
+        public bool IsExit(int x, int y)
+        {
+            return (x == End.x && y == End.y);
+        }
     }
 }

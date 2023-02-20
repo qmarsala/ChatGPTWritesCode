@@ -13,11 +13,11 @@ namespace ConsoleQuest
         {
             Console.Clear();
 
-            for (int i = 0; i < _maze.Rows; i++)
+            for (int i = 0; i < _maze.Width; i++)
             {
-                for (int j = 0; j < _maze.Columns; j++)
+                for (int j = 0; j < _maze.Height; j++)
                 {
-                    if (_maze.IsWall(i, j) == 1)
+                    if (_maze.IsWall(i, j))
                     {
                         Console.Write("#");
                     }

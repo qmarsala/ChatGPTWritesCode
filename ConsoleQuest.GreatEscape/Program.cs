@@ -7,14 +7,14 @@
             Console.WriteLine("Welcome to Console Quest: The Great Escape!");
             Console.WriteLine("Use the arrow keys to navigate the maze and find the exit.");
 
-            MazeGenerator mazeGenerator = new MazeGenerator();
+            MazeGenerator mazeGenerator = new MazeGenerator(10,10);
             Maze maze = mazeGenerator.GenerateMaze();
 
             MazeRenderer mazeRenderer = new MazeRenderer(maze);
             mazeRenderer.Render();
 
-            int currentRow = maze.StartRow;
-            int currentCol = maze.StartCol;
+            int currentRow = maze.Start.x;
+            int currentCol = maze.Start.y;
 
             while (true)
             {
@@ -53,7 +53,7 @@
                     currentCol = newCol;
                 }
 
-                mazeRenderer.Render(currentRow, currentCol);
+                mazeRenderer.Render();
             }
 
             Console.ReadLine();
