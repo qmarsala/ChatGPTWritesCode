@@ -74,6 +74,31 @@ public class World : IWorld
         return IsInsideWorld(x, y) && _tiles[x, y].IsAccessible;
     }
 
+    public void MovePlayer(Direction direction)
+    {
+        if (CanMovePlayer(direction))
+        {
+            int x = _playerX;
+            int y = _playerY;
+
+            switch (direction)
+            {
+                case Direction.North:
+                    MovePlayerTo(x, y - 1);
+                    break;
+                case Direction.South:
+                    MovePlayerTo(x, y + 1);
+                    break;
+                case Direction.East:
+                    MovePlayerTo(x + 1, y);
+                    break;
+                case Direction.West:
+                    MovePlayerTo(x - 1, y);
+                    break;
+            }
+        }
+    }
+
     public bool IsInsideWorld(int x, int y)
     {
         return x >= 0 && x < width && y >= 0 && y < height;

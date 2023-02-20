@@ -1,7 +1,8 @@
 
 namespace TextBasedRPG;
 
-public interface IWorld {
+public interface IWorld
+{
     // generate the world with the given size
     void GenerateWorld(int width, int height);
 
@@ -13,4 +14,5 @@ public interface IWorld {
 
     // check if the player can move in the specified direction
     bool CanMovePlayer(Direction direction);
+    void MovePlayer(Direction direction);
 }
