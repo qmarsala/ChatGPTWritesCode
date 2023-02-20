@@ -20,7 +20,16 @@ namespace ConsoleQuest
             }
         }
 
-        public bool GetCell(int x, int y)
+        public void SetWall(int x, int y)
+        {
+            if (x < 0 || x >= Width || y < 0 || y >= Height)
+            {
+                return;
+            }
+            _grid[x, y] = true;
+        }
+
+        public bool IsWall(int x, int y)
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height)
             {
