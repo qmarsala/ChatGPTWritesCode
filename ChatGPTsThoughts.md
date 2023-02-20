@@ -111,3 +111,8 @@ For example, if the game is meant to be fast-paced and action-packed, having a s
 
 Ultimately, whether a day-night cycle would work well in a specific game depends on a lot of different factors, and it's up to the game designer to make the call based on their vision for the game.
 ```
+
+I was thinking about our gameloop. I think we should change it a bit.  Instead of having just day and night, maybe we should have day, dusk, night, dawn.  what do you think?
+```
+That's a great idea! It would add more variety to the game and make the transitions between day and night smoother. By having four different phases, we could also add different effects and events depending on the time of day, which would make the game more interesting and challenging.
+```
