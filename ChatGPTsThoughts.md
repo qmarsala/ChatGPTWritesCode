@@ -31,3 +31,8 @@ Cooking: "You put together a delicious meal, using the ingredients you gathered 
 These are just some examples, but you can certainly come up with your own messages that fit your game's theme and style.
 
 ```
+
+This is looking great!  But I think we need to add a story.  What do you think our game should be about?
+```
+That's a great idea! The story of the game could be about a group of adventurers who are on a quest to find a legendary treasure. They need to hone their skills in fishing, woodcutting, firemaking, combat, and cooking in order to survive in the wild and overcome the challenges they will face along the way. As they progress, they encounter various obstacles and enemies that they must defeat using their skills, and eventually they reach their destination and find the treasure.
+```
