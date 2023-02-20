@@ -8,7 +8,8 @@ class Program
         var player = new Player("John");
 
         // Create a new command parser
-        var commandParser = new CommandParser();
+        var outputService = new ConsoleOutputService();
+        var commandParser = new CommandParser(outputService);
 
         // Create a new game instance
         var game = new TextBasedRPG(player, commandParser);
