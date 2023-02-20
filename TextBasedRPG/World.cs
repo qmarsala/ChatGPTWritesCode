@@ -31,60 +31,36 @@ public class World : IWorld
         }
     }
 
+    public bool CanMovePlayer(Direction direction)
+    {
+        var (newX, newY) = GetNewPlayerPosition(direction);
+        return IsInsideWorld(newX, newY) && GetTile(newX, newY).IsAccessible;
+    }
+
     public void MovePlayer(Direction direction)
     {
-        int x = _player.X;
-        int y = _player.Y;
-
-        switch (direction)
-        {
-            case Direction.Up:
-                y -= 1;
-                break;
-            case Direction.Down:
-                y += 1;
-                break;
-            case Direction.Left:
-                x -= 1;
-                break;
-            case Direction.Right:
-                x += 1;
-                break;
-            default:
-                throw new ArgumentException("Invalid direction");
-        }
-
         if (CanMovePlayer(direction))
         {
-            _player.X = x;
-            _player.Y = y;
+            _playerX = newX;
+            _playerY = newY;
         }
     }
 
-    public bool CanMovePlayer(Direction direction)
+    private (int, int) GetNewPlayerPosition(Direction direction)
     {
-        int x = _player.X;
-        int y = _player.Y;
-
         switch (direction)
         {
             case Direction.Up:
-                y -= 1;
-                break;
+                return (_playerX, _playerY - 1);
             case Direction.Down:
-                y += 1;
-                break;
+                return (_playerX, _playerY + 1);
             case Direction.Left:
-                x -= 1;
-                break;
+                return (_playerX - 1, _playerY);
             case Direction.Right:
-                x += 1;
-                break;
+                return (_playerX + 1, _playerY);
             default:
-                throw new ArgumentException("Invalid direction");
+                throw new ArgumentException("Invalid direction.");
         }
-
-        return IsInsideWorld(x, y) && _tiles[x, y].IsAccessible;
     }
 
     public bool IsInsideWorld(int x, int y)
