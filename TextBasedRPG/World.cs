@@ -77,4 +77,9 @@ public class World : IWorld
 
         return IsInsideWorld(x, y) && _tiles[x, y].IsAccessible;
     }
+
+    public bool IsInsideWorld(int x, int y)
+    {
+        return x >= 0 && x < width && y >= 0 && y < height;
+    }
 }
