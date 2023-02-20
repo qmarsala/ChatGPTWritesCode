@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ConsoleQuest
+﻿namespace ConsoleQuest
 {
     class Program
     {
