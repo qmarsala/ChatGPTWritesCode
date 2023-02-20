@@ -5,12 +5,13 @@ class Program
 {
     static void Main(string[] args)
     {
-        IWorld world = new World();
+        var tileGenerator = new TileGenerator(10);
+        var world = new World(10, 10, tileGenerator);
         world.GenerateWorld(10, 10);
 
-        IPlayer player = new Player("John", 100);
+        var player = new Player("John", 10);
+        var gameLoop = new GameLoop(world, player, tileGenerator);
 
-        GameLoop game = new GameLoop(world, player);
-        game.Run();
+        gameLoop.Run();
     }
 }
