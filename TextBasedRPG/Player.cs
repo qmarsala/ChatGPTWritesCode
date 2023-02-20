@@ -3,109 +3,45 @@ namespace TextBasedRPG;
 
 public class Player : Entity, IPlayer
 {
-    private int daysSurvived;
-    private int health;
-    private int maxHealth;
-    private int hunger;
-    private IItem equippedItem;
+    public int MaxHealth { get; set; }
+    public int Hunger { get; set; }
+    public IItem EquippedItem { get; set; }
+    public int DaysSurvived { get; set; }
 
-    public Player(int x, int y, int health, int maxHealth, int hunger)
+    public bool IsAlive
     {
-        X = x;
-        Y = y;
-        this.health = health;
-        this.maxHealth = maxHealth;
-        this.hunger = hunger;
-    }
-
-    public int GetDaysSurvived()
-    {
-        return daysSurvived;
-    }
-
-    public Direction GetInput()
-    {
-        // Logic to get player input goes here
-        return Direction.None;
-    }
-
-    public int GetHealth()
-    {
-        return health;
-    }
-
-    public int GetMaxHealth()
-    {
-        return maxHealth;
-    }
-
-    public void SetHealth(int health)
-    {
-        this.health = Math.Min(health, maxHealth);
-    }
-
-    public int GetHunger()
-    {
-        return hunger;
-    }
-
-    public void SetHunger(int hunger)
-    {
-        this.hunger = hunger;
-    }
-
-    public IItem GetEquippedItem()
-    {
-        return equippedItem;
-    }
-
-    public void SetEquippedItem(IItem item)
-    {
-        equippedItem = item;
-    }
-
-    public (int x, int y) GetPosition()
-    {
-        return (X, Y);
-    }
-
-    public void SetPosition(int x, int y)
-    {
-        X = x;
-        Y = y;
-    }
-
-    public bool IsAlive()
-    {
-        return health > 0;
+        get { return Health > 0; }
     }
 
     public void Move(Direction direction)
     {
         switch (direction)
         {
-            case Direction.North:
-                Move(0, -1);
+            case Direction.None:
+                Y -= 1;
                 break;
             case Direction.South:
-                Move(0, 1);
+                Y += 1;
                 break;
             case Direction.West:
-                Move(-1, 0);
+                X -= 1;
                 break;
             case Direction.East:
-                Move(1, 0);
+                X += 1;
                 break;
         }
     }
 
-    public void Attack(Direction direction)
+    public bool IsAdjacent(IEntity otherEntity)
     {
-        // Logic to attack an enemy in a given direction goes here
+        int dx = Math.Abs(X - otherEntity.X);
+        int dy = Math.Abs(Y - otherEntity.Y);
+
+        return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
     }
 
-    public void Eat(IItem food)
+    public Direction GetInput()
     {
-        // Logic to eat a food item goes here
+        throw new NotImplementedException();
     }
 }

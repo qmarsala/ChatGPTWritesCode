@@ -16,7 +16,7 @@ public class Weapon : IItem
 
     public void Use(IPlayer player)
     {
-        player.SetEquippedItem(this);
+        player.EquippedItem = this;
     }
 }
 

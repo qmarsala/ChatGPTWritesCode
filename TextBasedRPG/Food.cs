@@ -14,6 +14,6 @@ public class Food : IItem
 
     public void Use(IPlayer player)
     {
-        player.Eat(this);
+        player.Hunger += Nutrition;
     }
 }
