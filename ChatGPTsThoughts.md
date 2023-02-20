@@ -84,3 +84,8 @@ One approach is to use a more general ability system where the player has a set 
 
 Another approach could be to have the player character be more of a blank slate, with the player's progression and abilities being dictated by the items and equipment they acquire. For example, the player could start off with a basic set of tools and weapons, but as they explore the game world and defeat enemies, they can acquire new and more powerful items that give them new abilities or passive bonuses. This could allow for more player choice and customization in terms of playstyle and character progression.
 ```
+
+should our player keep track of its location? or should the world track that?
+```
+It's a matter of design choice, but I would recommend having the world keep track of the player's location. This way, the player can be moved around and interact with the world without needing to know about the implementation details of the world or the tiles. It also allows for more flexibility in the future if you want to introduce more advanced mechanics or change how the world works.
+```
