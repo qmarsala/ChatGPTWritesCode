@@ -3,8 +3,10 @@ namespace TextBasedRPG;
 
 public class World : IWorld
 {
-    private ITile[,] tiles;
-    private IPlayer player;
+    private ITile[,] _tiles;
+    private IPlayer _player;
+    private int _playerX;
+    private int _playerY;
     private int width;
     private int height;
 
@@ -12,19 +14,19 @@ public class World : IWorld
     {
         this.width = width;
         this.height = height;
-        this.player = player;
+        _player = player;
         GenerateWorld(width, height);
     }
 
     public void GenerateWorld(int width, int height)
     {
-        tiles = new ITile[width, height];
+        _tiles = new ITile[width, height];
 
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                tiles[x, y] = new Tile();
+                _tiles[x, y] = new Tile();
             }
         }
 
@@ -41,43 +43,41 @@ public class World : IWorld
             return null;
         }
 
-        return tiles[x, y];
+        return _tiles[x, y];
     }
 
     public void MovePlayerTo(int x, int y)
     {
-        player.X = x;
-        player.Y = y;
+        _playerX = x;
+        _playerY = y;
     }
 
     public bool CanMovePlayer(Direction direction)
     {
-        int newX = player.X;
-        int newY = player.Y;
+        int x = _playerX;
+        int y = _playerY;
 
         switch (direction)
         {
             case Direction.Up:
-                newY--;
+                y--;
                 break;
             case Direction.Down:
-                newY++;
+                y++;
                 break;
             case Direction.Left:
-                newX--;
+                x--;
                 break;
             case Direction.Right:
-                newX++;
+                x++;
                 break;
         }
 
-        if (newX < 0 || newX >= width || newY < 0 || newY >= height)
+        if (x < 0 || x >= _tiles.GetLength(0) || y < 0 || y >= _tiles.GetLength(1))
         {
             return false;
         }
 
-        ITile newTile = GetTile(newX, newY);
-
-        return newTile != null && newTile.IsAccessible;
+        return true;
     }
 }
