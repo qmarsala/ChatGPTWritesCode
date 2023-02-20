@@ -1,44 +1,50 @@
 ﻿
 namespace TextBasedRPG;
 
-class Program
-{
-   static void Main(string[] args)
-{
-    // Create a new world with a size of 10x10 tiles
-    IWorld world = new World();
-    world.GenerateWorld(10, 10);
 
-    // Initialize player location to center of the world
-    world.MovePlayerTo(5, 5);
+public class GameLoop {
+    private IWorld world;
+    private IPlayer player;
 
-    // Game loop
-    while (true)
-    {
-        // Get player input
-        Console.WriteLine("Enter a direction to move (north, south, east, west):");
-        string input = Console.ReadLine();
+    public GameLoop(IWorld world, IPlayer player) {
+        this.world = world;
+        this.player = player;
+    }
 
-        // Parse input and move player if valid
-        if (Enum.TryParse(input, true, out Direction direction))
-        {
-            if (world.CanMovePlayer(direction))
-            {
-                world.MovePlayer(direction);
-                Console.WriteLine($"Moved {direction.ToString().ToUpper()}");
-            }
-            else
-            {
-                Console.WriteLine("Cannot move in that direction");
+    public void Run() {
+        while (true) {
+            // Print the current location and description
+            Console.WriteLine($"You are at {player.X},{player.Y}: {world.GetTileDescription(player.X, player.Y)}");
+
+            // Get user input
+            Console.Write("Enter a direction (N/S/E/W): ");
+            var input = Console.ReadLine();
+
+            // Parse input and move player if valid
+            if (Enum.TryParse(input, out Direction direction)) {
+                if (world.CanMovePlayer(direction)) {
+                    world.MovePlayer(direction);
+                } else {
+                    Console.WriteLine("You can't move in that direction.");
+                }
+            } else {
+                Console.WriteLine("Invalid input.");
             }
         }
-        else
-        {
-            Console.WriteLine("Invalid input");
-        }
-
-        // Display current tile description
-        Console.WriteLine(world.GetTileDescription());
     }
 }
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Create world and player instances
+        IWorld world = new World();
+        world.GenerateWorld(10, 10);
+        IPlayer player = new Player();
+
+        // Create game loop and run it
+        GameLoop gameLoop = new GameLoop(world, player);
+        gameLoop.Run();
+    }
 }
