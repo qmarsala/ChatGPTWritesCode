@@ -3,8 +3,10 @@ namespace TextBasedRPG;
 
 public class GameLoop
 {
-    private readonly IWorld _world;
-    private readonly IPlayer _player;
+    private IWorld _world;
+    private IPlayer _player;
+    private bool _isDay = true;
+    private int _loopCount = 0;
 
     public GameLoop(IWorld world, IPlayer player)
     {
@@ -16,18 +18,19 @@ public class GameLoop
     {
         while (_player.IsAlive)
         {
-            var (playerX, playerY) = _world.GetPlayerPosition();
-            var tileDescription = _world.GetTileDescription(playerX, playerY);
-            if (tileDescription == null)
+            // Check if it's time to switch between day and night
+            if (_loopCount % 6 == 0)
             {
-                Console.WriteLine("Invalid tile description.");
-                continue;
+                _isDay = !_isDay;
+                Console.WriteLine(_isDay ? "Daytime" : "Nighttime");
             }
-            Console.WriteLine(tileDescription);
+
+            var (playerX, playerY) = _world.GetPlayerPosition();
+            Console.WriteLine(_world.GetTileDescription(playerX, playerY));
 
             Console.Write("Enter a direction (N/S/E/W) or 'Q' to quit: ");
             var input = Console.ReadLine()?.ToUpper();
-            if (string.IsNullOrWhiteSpace(input) || !IsValidInput(input))
+            if (input == null)
             {
                 Console.WriteLine("Invalid input.");
                 continue;
@@ -50,16 +53,15 @@ public class GameLoop
                 case "Q":
                     Console.WriteLine("Quitting game...");
                     return;
+                default:
+                    Console.WriteLine("Invalid input.");
+                    break;
             }
 
             Console.WriteLine();
+            _loopCount++;
         }
 
         Console.WriteLine("Game over.");
-    }
-
-    private static bool IsValidInput(string input)
-    {
-        return input == "N" || input == "S" || input == "E" || input == "W" || input == "Q";
     }
 }
