@@ -4,17 +4,13 @@ namespace TextBasedRPG;
 public class World : IWorld
 {
     private ITile[,] _tiles;
-    private IPlayer _player;
     private int _playerX;
     private int _playerY;
     private int width;
     private int height;
 
-    public World(int width, int height, IPlayer player)
+    public World()
     {
-        this.width = width;
-        this.height = height;
-        _player = player;
         GenerateWorld(width, height);
     }
 
