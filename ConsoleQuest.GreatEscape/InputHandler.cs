@@ -31,21 +31,14 @@ namespace ConsoleQuest
             }
         }
 
-        private Direction GetDirectionFromKey(ConsoleKey key)
-        {
-            switch (key)
+        private Direction GetDirectionFromKey(ConsoleKey key) =>
+            key switch
             {
-                case ConsoleKey.UpArrow:
-                    return Direction.Up;
-                case ConsoleKey.DownArrow:
-                    return Direction.Down;
-                case ConsoleKey.LeftArrow:
-                    return Direction.Left;
-                case ConsoleKey.RightArrow:
-                    return Direction.Right;
-                default:
-                    return Direction.Up; // Default to up direction
-            }
-        }
+                ConsoleKey.UpArrow => Direction.Up,
+                ConsoleKey.DownArrow => Direction.Down,
+                ConsoleKey.LeftArrow => Direction.Left,
+                ConsoleKey.RightArrow => Direction.Right,
+                _ => Direction.Up // Default to up direction
+            };
     }
 }
