@@ -54,8 +54,7 @@ public class World : IWorld
         if (CanMovePlayer(direction))
         {
             var (newX, newY) = GetNewPlayerPosition(direction);
-            _playerX = newX;
-            _playerY = newY;
+            UpdatePlayerPosition(newX, newY);
         }
     }
 
@@ -84,6 +83,33 @@ public class World : IWorld
         };
 
         return (_playerX + dx, _playerY + dy);
+    }
+
+    public void UpdatePlayerPosition(int newPlayerX, int newPlayerY)
+    {
+        // Check if the player has reached the boundary of the world
+        if (newPlayerX < 0)
+        {
+            newPlayerX = Width - 1;
+            GenerateWorld();
+        }
+        else if (newPlayerX >= Width)
+        {
+            newPlayerX = 0;
+            GenerateWorld();
+        }
+        else if (newPlayerY < 0)
+        {
+            newPlayerY = Height - 1;
+            GenerateWorld();
+        }
+        else if (newPlayerY >= Height)
+        {
+            newPlayerY = 0;
+            GenerateWorld();
+        }
+
+        MovePlayerTo(newPlayerX, newPlayerY);
     }
 
     public bool IsInsideWorld(int x, int y)
