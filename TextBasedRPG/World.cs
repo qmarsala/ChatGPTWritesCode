@@ -99,14 +99,14 @@ public class World : IWorld
         }
     }
 
-    public string GetTileDescription(int x, int y)
+    public string GetTileDescription()
     {
-        if (!IsInsideWorld(x, y))
+        if (!IsInsideWorld(_playerX, _playerY))
         {
             return "You are at the edge of the world.";
         }
 
-        ITile tile = GetTile(x, y);
+        ITile tile = GetTile(_playerX, _playerY);
 
         return tile.Description;
     }
