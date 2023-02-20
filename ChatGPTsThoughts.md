@@ -77,3 +77,10 @@ LevelUpCost is the amount of resources or experience required for a player to le
 
 The implementation of LevelUpCost can vary depending on the game mechanics and design. For example, in a game where a player's skills increase with use, the cost to level up a skill could increase as the skill level increases. Alternatively, in a game where skills are leveled up by spending resources, the cost to level up a skill could increase based on the scarcity of those resources.
 ```
+
+Instead of having skills that dictate what our player can or cannot do, what else could we do?
+```
+One approach is to use a more general ability system where the player has a set of abilities that can be used in various situations. Each ability could have a cooldown period and a cost (e.g. health, stamina, mana) associated with using it. The player can use the abilities in combination to achieve their goals, whether that be hunting, gathering resources, or fighting enemies.
+
+Another approach could be to have the player character be more of a blank slate, with the player's progression and abilities being dictated by the items and equipment they acquire. For example, the player could start off with a basic set of tools and weapons, but as they explore the game world and defeat enemies, they can acquire new and more powerful items that give them new abilities or passive bonuses. This could allow for more player choice and customization in terms of playstyle and character progression.
+```
