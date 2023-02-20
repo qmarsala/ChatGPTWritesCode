@@ -1,6 +1,15 @@
 ﻿
 namespace TextBasedRPG;
 
+public enum Direction
+{
+    North,
+    South,
+    East,
+    West
+}
+
+
 public interface ITile
 {
     string Name { get; set; }
