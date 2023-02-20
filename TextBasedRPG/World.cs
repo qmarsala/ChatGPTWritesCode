@@ -88,28 +88,34 @@ public class World : IWorld
     public void UpdatePlayerPosition(int newPlayerX, int newPlayerY)
     {
         // Check if the player has reached the boundary of the world
-        if (newPlayerX < 0)
+        if (newPlayerX <= 0)
         {
-            newPlayerX = Width - 1;
+            newPlayerX = 1;
+            MovePlayerTo(newPlayerX, newPlayerY);
             GenerateWorld();
         }
-        else if (newPlayerX >= Width)
+        else if (newPlayerX >= Width - 1)
         {
-            newPlayerX = 0;
+            newPlayerX = Width - 2;
+            MovePlayerTo(newPlayerX, newPlayerY);
             GenerateWorld();
         }
-        else if (newPlayerY < 0)
+        else if (newPlayerY <= 0)
         {
-            newPlayerY = Height - 1;
+            newPlayerY = 1;
+            MovePlayerTo(newPlayerX, newPlayerY);
             GenerateWorld();
         }
-        else if (newPlayerY >= Height)
+        else if (newPlayerY >= Height - 1)
         {
-            newPlayerY = 0;
+            newPlayerY = Height - 2;
+            MovePlayerTo(newPlayerX, newPlayerY);
             GenerateWorld();
         }
-
-        MovePlayerTo(newPlayerX, newPlayerY);
+        else
+        {
+            MovePlayerTo(newPlayerX, newPlayerY);
+        }
     }
 
     public bool IsInsideWorld(int x, int y)
