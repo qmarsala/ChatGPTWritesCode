@@ -3,17 +3,18 @@ namespace TextBasedRPG;
 
 public class GameLoop
 {
-    private const int FramesPerDay = 6;
-    private const int FramesPerDusk = 2;
-    private const int FramesPerNight = 6;
-    private const int FramesPerDawn = 2;
+    private const int NumDayLoops = 6;
+    private const int NumDuskLoops = 2;
+    private const int NumNightLoops = 6;
+    private const int NumDawnLoops = 2;
 
     private readonly IWorld _world;
     private readonly IPlayer _player;
-    private readonly TileGenerator _tileGenerator;
-    private int _frameCount;
+    private readonly ITileGenerator _tileGenerator;
 
-    public GameLoop(IWorld world, IPlayer player, TileGenerator tileGenerator)
+    private int _loopCount = 0;
+
+    public GameLoop(IWorld world, IPlayer player, ITileGenerator tileGenerator)
     {
         _world = world;
         _player = player;
@@ -24,96 +25,110 @@ public class GameLoop
     {
         while (true)
         {
-            UpdateWorldState();
+            // Get player input
+            var playerInput = GetPlayerInput();
 
-            // Render the world and player information
-            Render();
+            // Update player position
+            var newPlayerX = _player.X;
+            var newPlayerY = _player.Y;
 
-            // Wait for a short time to slow down the loop
-            Thread.Sleep(100);
-        }
-    }
-
-    private void UpdateWorldState()
-    {
-        // Increment the frame count and reset it to 0 after one full day/night cycle
-        _frameCount = (_frameCount + 1) % (FramesPerDay + FramesPerDusk + FramesPerNight + FramesPerDawn);
-
-        // Generate new tiles at the start of each day/dusk/night/dawn cycle
-        if (_frameCount == 0 || _frameCount == FramesPerDay + FramesPerDusk || _frameCount == FramesPerDay + FramesPerDusk + FramesPerNight)
-        {
-            _world.GenerateWorld();
-        }
-
-        // Update the player's position and handle collisions with the environment
-        var direction = GetPlayerInput();
-        if (_world.CanMovePlayer(direction))
-        {
-            _world.MovePlayer(direction);
-        }
-    }
-
-    public void Render()
-    {
-        Console.Clear();
-
-        for (int y = 0; y < _world.Height; y++)
-        {
-            for (int x = 0; x < _world.Width; x++)
+            switch (playerInput)
             {
-                var tile = _world.GetTile(x, y);
-                var playerPosition = _world.GetPlayerPosition();
-                if (x == playerPosition.x && y == playerPosition.y)
-                {
-                    Console.Write("@");
-                }
-                else
-                {
-                    Console.Write(tile.Character);
-                }
+                case PlayerInput.MoveUp:
+                    newPlayerY--;
+                    break;
+                case PlayerInput.MoveDown:
+                    newPlayerY++;
+                    break;
+                case PlayerInput.MoveLeft:
+                    newPlayerX--;
+                    break;
+                case PlayerInput.MoveRight:
+                    newPlayerX++;
+                    break;
             }
 
-            Console.WriteLine();
-        }
+            _world.UpdatePlayerPosition(newPlayerX, newPlayerY);
 
-        Console.WriteLine("Player: " + _player.Name + " Health: " + _player.Health);
+            // Check win conditions
+            if (_world.IsGameOver)
+            {
+                Console.WriteLine("Congratulations! You have reached the exit and won the game!");
+                break;
+            }
+
+            if (_world.DayCount >= 100)
+            {
+                Console.WriteLine("You have survived for 100 days! You win!");
+                break;
+            }
+
+            // Render game
+            Console.Clear();
+            Console.WriteLine($"Day {_world.DayCount} ({_world.TimeOfDay})");
+            Console.WriteLine(_world.Render(_player.X, _player.Y));
+
+            // Wait for some time
+            Thread.Sleep(GetLoopDuration());
+        }
     }
 
-    public Direction GetPlayerInput()
+    private PlayerInput GetPlayerInput()
     {
-        ConsoleKeyInfo input = Console.ReadKey(intercept: true);
-        switch (input.Key)
+        while (true)
         {
-            case ConsoleKey.UpArrow:
-                return Direction.North;
-            case ConsoleKey.DownArrow:
-                return Direction.South;
-            case ConsoleKey.LeftArrow:
-                return Direction.West;
-            case ConsoleKey.RightArrow:
-                return Direction.East;
-            default:
-                return Direction.None;
+            Console.Write("Enter a direction to move (up, down, left, right): ");
+            var inputStr = Console.ReadLine().Trim().ToLower();
+
+            if (inputStr == "up")
+            {
+                return PlayerInput.MoveUp;
+            }
+            else if (inputStr == "down")
+            {
+                return PlayerInput.MoveDown;
+            }
+            else if (inputStr == "left")
+            {
+                return PlayerInput.MoveLeft;
+            }
+            else if (inputStr == "right")
+            {
+                return PlayerInput.MoveRight;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please try again.");
+            }
         }
     }
 
-    private TimeOfDay GetTimeOfDay()
+    private int GetLoopDuration()
     {
-        if (_frameCount < FramesPerDay)
+        if (_loopCount % NumDayLoops == 0)
         {
-            return TimeOfDay.Day;
+            _world.SetTimeOfDay(TimeOfDay.Day);
+            return 2000;
         }
-        else if (_frameCount < FramesPerDay + FramesPerDusk)
+        else if (_loopCount % NumDuskLoops == 0)
         {
-            return TimeOfDay.Dusk;
+            _world.SetTimeOfDay(TimeOfDay.Dusk);
+            return 500;
         }
-        else if (_frameCount < FramesPerDay + FramesPerDusk + FramesPerNight)
+        else if (_loopCount % NumNightLoops == 0)
         {
-            return TimeOfDay.Night;
+            _world.SetTimeOfDay(TimeOfDay.Night);
+            return 2000;
+        }
+        else if (_loopCount % NumDawnLoops == 0)
+        {
+            _world.SetTimeOfDay(TimeOfDay.Dawn);
+            return 500;
         }
         else
         {
-            return TimeOfDay.Dawn;
+            _world.SetTimeOfDay(TimeOfDay.Day);
+            return 2000;
         }
     }
 }
