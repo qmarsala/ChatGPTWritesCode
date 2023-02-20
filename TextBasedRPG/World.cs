@@ -24,7 +24,7 @@ public class World : IWorld
         {
             for (int y = 0; y < height; y++)
             {
-                tiles[x, y] = new Tile(x, y);
+                tiles[x, y] = new Tile();
             }
         }
 
@@ -78,6 +78,6 @@ public class World : IWorld
 
         ITile newTile = GetTile(newX, newY);
 
-        return newTile != null && newTile.IsWalkable();
+        return newTile != null && newTile.IsAccessible;
     }
 }
