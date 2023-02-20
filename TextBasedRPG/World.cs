@@ -8,12 +8,55 @@ public class World : IWorld
     public int Width { get; }
     public int Height { get; }
 
-    public World(ITile[,] tiles, List<IEntity> entities)
+    public World()
     {
-        Width = tiles.GetLength(0);
-        Height = tiles.GetLength(1);
-        _tiles = tiles;
-        _entities = entities;
+        Width = 10;
+        Height = 10;
+        _tiles = new ITile[Width, Height];
+        
+        // Generate tiles
+        for (int y = 0; y < 10; y++)
+        {
+            for (int x = 0; x < 10; x++)
+            {
+                bool isExitTile = (x == 9 && y == 9);
+
+                _tiles[x, y] = new Tile(isExitTile);
+            }
+        }
+
+        GenerateEntities();
+    }
+
+    public void GenerateEntities()
+    {
+        var rand = new Random();
+        for (int i = 0; i < _tiles.GetLength(0); i++)
+        {
+            for (int j = 0; j < _tiles.GetLength(1); j++)
+            {
+                var tile = _tiles[i, j];
+
+                // Skip non-grass tiles
+                if (tile.Type != TileType.Grass)
+                {
+                    continue;
+                }
+
+                // Random chance of generating an entity on this tile
+                if (rand.Next(10) == 0)
+                {
+                    // Create a new entity
+                    var entity = new Entity();
+                    entity.X = j;
+                    entity.Y = i;
+                    entity.CurrentTile = tile;
+
+                    // Add entity to the list of entities
+                    _entities.Add(entity);
+                }
+            }
+        }
     }
 
     public ITile GetTileAt(int x, int y)

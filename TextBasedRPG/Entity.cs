@@ -6,6 +6,7 @@ public class Entity : IEntity
     public int X { get; set; }
     public int Y { get; set; }
     public int Health { get; set; }
+    public ITile CurrentTile { get; set; }
 
     public void Move(int dx, int dy)
     {

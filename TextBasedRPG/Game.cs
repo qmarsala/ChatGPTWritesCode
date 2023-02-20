@@ -38,8 +38,8 @@ public class Game : IGame
         // Move the player
         _player.Move(input);
 
-        // Decrement player's hunger level
-        _player.Hunger--;
+        // Update world state
+        _world.Update();
 
         // Check if player is still alive
         if (!_player.IsAlive)
@@ -58,9 +58,6 @@ public class Game : IGame
             _state = GameState.Won;
             return;
         }
-
-        // Update world state
-        _world.Update(_player);
     }
 
     public void Render()
@@ -117,7 +114,7 @@ public class Game : IGame
 
     public bool HasPlayerWon()
     {
-        return _world.IsOnExitTile(_player) || _player.DaysSurvived >= 100;
+        return _player.DaysSurvived >= 100;
     }
 
     public bool HasPlayerLost()
