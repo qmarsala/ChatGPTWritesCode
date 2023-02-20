@@ -3,30 +3,27 @@ namespace TextBasedRPG;
 
 public class GameLoop
 {
-    private IWorld _world;
-    private IPlayer _player;
-    private bool _isDay = true;
-    private int _loopCount = 0;
+    private readonly IWorld _world;
+    private readonly IPlayer _player;
+    private readonly TileGenerator _tileGenerator;
 
-    public GameLoop(IWorld world, IPlayer player)
+    private int _loopCount;
+
+    public GameLoop(IWorld world, IPlayer player, TileGenerator tileGenerator)
     {
         _world = world;
         _player = player;
+        _tileGenerator = tileGenerator;
+        _loopCount = 0;
     }
 
     public void Run()
     {
         while (_player.IsAlive)
         {
-            // Check if it's time to switch between day and night
-            if (_loopCount % 6 == 0)
-            {
-                _isDay = !_isDay;
-                Console.WriteLine(_isDay ? "Daytime" : "Nighttime");
-            }
-
             var (playerX, playerY) = _world.GetPlayerPosition();
-            Console.WriteLine(_world.GetTileDescription(playerX, playerY));
+            var tile = _world.GetTile(playerX, playerY);
+            Console.WriteLine(tile.Description);
 
             Console.Write("Enter a direction (N/S/E/W) or 'Q' to quit: ");
             var input = Console.ReadLine()?.ToUpper();
@@ -58,8 +55,21 @@ public class GameLoop
                     break;
             }
 
-            Console.WriteLine();
             _loopCount++;
+            if (_loopCount % 6 == 0)
+            {
+                Console.WriteLine("Switching to " + (_world.IsDay ? "night" : "day") + " mode...");
+                _world.ToggleDayNight();
+            }
+
+            if (_loopCount % 12 == 0)
+            {
+                _loopCount = 0;
+                Console.WriteLine("Generating new tiles...");
+                _world.GenerateTiles(_tileGenerator);
+            }
+
+            Console.WriteLine();
         }
 
         Console.WriteLine("Game over.");

@@ -6,6 +6,13 @@ public class World : IWorld
     private ITile[,] _tiles;
     private int _playerX;
     private int _playerY;
+    private readonly TileGenerator _tileGenerator;
+
+    public World(int width, int height, TileGenerator tileGenerator)
+    {
+        _tiles = new ITile[width, height];
+        _tileGenerator = tileGenerator;
+    }
 
     public void GenerateWorld(int width, int height)
     {
@@ -15,7 +22,7 @@ public class World : IWorld
         {
             for (int y = 0; y < height; y++)
             {
-                _tiles[x, y] = new Tile { IsAccessible = true };
+                _tiles[x, y] = _tileGenerator.GenerateTile();
             }
         }
     }
