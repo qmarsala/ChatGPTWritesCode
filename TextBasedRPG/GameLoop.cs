@@ -3,8 +3,8 @@ namespace TextBasedRPG;
 
 public class GameLoop
 {
-    private IWorld _world;
-    private IPlayer _player;
+    private readonly IWorld _world;
+    private readonly IPlayer _player;
 
     public GameLoop(IWorld world, IPlayer player)
     {
@@ -17,11 +17,17 @@ public class GameLoop
         while (_player.IsAlive)
         {
             var (playerX, playerY) = _world.GetPlayerPosition();
-            Console.WriteLine(_world.GetTileDescription(playerX, playerY));
+            var tileDescription = _world.GetTileDescription(playerX, playerY);
+            if (tileDescription == null)
+            {
+                Console.WriteLine("Invalid tile description.");
+                continue;
+            }
+            Console.WriteLine(tileDescription);
 
             Console.Write("Enter a direction (N/S/E/W) or 'Q' to quit: ");
             var input = Console.ReadLine()?.ToUpper();
-            if (input == null)
+            if (string.IsNullOrWhiteSpace(input) || !IsValidInput(input))
             {
                 Console.WriteLine("Invalid input.");
                 continue;
@@ -44,14 +50,16 @@ public class GameLoop
                 case "Q":
                     Console.WriteLine("Quitting game...");
                     return;
-                default:
-                    Console.WriteLine("Invalid input.");
-                    break;
             }
 
             Console.WriteLine();
         }
 
         Console.WriteLine("Game over.");
+    }
+
+    private static bool IsValidInput(string input)
+    {
+        return input == "N" || input == "S" || input == "E" || input == "W" || input == "Q";
     }
 }
