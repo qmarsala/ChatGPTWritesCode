@@ -3,7 +3,12 @@ namespace TextBasedRPG;
 
 public class GroundTile : ITile
 {
-    public string Description => "You are standing on a patch of grass.";
+    public string Description { get; }
     public bool IsAccessible => true;
     public char Character => '.';
+
+    public GroundTile(string description)
+    {
+        Description = description;
+    }
 }

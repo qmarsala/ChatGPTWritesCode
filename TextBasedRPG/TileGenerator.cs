@@ -46,22 +46,22 @@ public class TileGenerator
 
         if (rand < 60)
         {
-            return new Tile(TileType.Ground, GetRandomDescription(GroundTileDescriptions));
+            return new GroundTile(GetRandomDescription(GroundTileDescriptions));
         }
         else if (rand < 80)
         {
-            return new Tile(TileType.Item, GetRandomDescription(ItemTileDescriptions));
+            return new ItemTile(GetRandomDescription(ItemTileDescriptions));
         }
         else if (rand < 95)
         {
-            return new Tile(TileType.Enemy, GetRandomDescription(EnemyTileDescriptions));
+            return new EnemyTile(GetRandomDescription(EnemyTileDescriptions));
         }
         else
         {
-            return new Tile(TileType.Exit, ExitTileDescription);
+            return new ExitTile(ExitTileDescription);
         }
     }
-
+    
     private string GetRandomDescription(string[] descriptions)
     {
         return descriptions[_random.Next(descriptions.Length)];
