@@ -4,7 +4,7 @@ namespace TextBasedRPG;
 public class World : IWorld
 {
     private ITile[,] _tiles;
-    private List<IEntity> _entities;
+    private List<IEntity> _entities = new List<IEntity>();
     public int Width { get; }
     public int Height { get; }
 
@@ -13,7 +13,7 @@ public class World : IWorld
         Width = 10;
         Height = 10;
         _tiles = new ITile[Width, Height];
-        
+
         // Generate tiles
         for (int y = 0; y < 10; y++)
         {
@@ -26,6 +26,56 @@ public class World : IWorld
         }
 
         GenerateEntities();
+    }
+
+    public void GenerateTiles()
+    {
+        _tiles = new ITile[Width, Height];
+
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                ITile tile;
+                if (x == 0 || y == 0 || x == Width - 1 || y == Height - 1)
+                {
+                    tile = new WallTile();
+                }
+                else if (_random.NextDouble() < _exitChance)
+                {
+                    tile = new ExitTile();
+                }
+                else if (_random.NextDouble() < _enemyChance)
+                {
+                    tile = new EnemyTile();
+                    _entities.Add(new Entity { X = x, Y = y, Health = 1, CurrentTile = tile });
+                }
+                else
+                {
+                    tile = new FloorTile();
+                }
+
+                // Set the symbol for the tile based on its type
+                if (tile is WallTile)
+                {
+                    tile.Symbol = "#";
+                }
+                else if (tile is ExitTile)
+                {
+                    tile.Symbol = "E";
+                }
+                else if (tile is EnemyTile)
+                {
+                    tile.Symbol = "X";
+                }
+                else if (tile is FloorTile)
+                {
+                    tile.Symbol = ".";
+                }
+
+                _tiles[x, y] = tile;
+            }
+        }
     }
 
     public void GenerateEntities()

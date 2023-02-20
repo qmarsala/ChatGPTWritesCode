@@ -3,10 +3,10 @@ namespace TextBasedRPG;
 
 public class Player : Entity, IPlayer
 {
-    public int MaxHealth { get; set; }
-    public int Hunger { get; set; }
+    public int MaxHealth { get; set; } = 100;
+    public int Hunger { get; set; } = 0;
     public IItem EquippedItem { get; set; }
-    public int DaysSurvived { get; set; }
+    public int DaysSurvived { get; set; } = 1;
 
     public bool IsAlive
     {
@@ -17,7 +17,7 @@ public class Player : Entity, IPlayer
     {
         switch (direction)
         {
-            case Direction.None:
+            case Direction.North:
                 Y -= 1;
                 break;
             case Direction.South:
@@ -42,6 +42,19 @@ public class Player : Entity, IPlayer
 
     public Direction GetInput()
     {
-        throw new NotImplementedException();
+        ConsoleKeyInfo inputKey = Console.ReadKey(true);
+        switch (inputKey.Key)
+        {
+            case ConsoleKey.UpArrow:
+                return Direction.North;
+            case ConsoleKey.DownArrow:
+                return Direction.South;
+            case ConsoleKey.LeftArrow:
+                return Direction.West;
+            case ConsoleKey.RightArrow:
+                return Direction.East;
+            default:
+                return Direction.None;
+        }
     }
 }
