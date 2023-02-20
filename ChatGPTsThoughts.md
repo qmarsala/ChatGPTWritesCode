@@ -89,3 +89,16 @@ should our player keep track of its location? or should the world track that?
 ```
 It's a matter of design choice, but I would recommend having the world keep track of the player's location. This way, the player can be moved around and interact with the world without needing to know about the implementation details of the world or the tiles. It also allows for more flexibility in the future if you want to introduce more advanced mechanics or change how the world works.
 ```
+
+how could we improve our main method?
+```
+There are several ways we could improve our main method:
+
+We could use dependency injection to decouple the creation of objects from their use in the game loop. This would make it easier to test and modify the code in the future.
+
+We could create a separate class to handle the game loop logic. This would make the code more modular and easier to read.
+
+We could add error handling to handle unexpected input or game states.
+
+We could add more features to the game, such as combat, crafting, or questing, to make the game more interesting and engaging.
+```
