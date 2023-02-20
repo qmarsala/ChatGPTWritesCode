@@ -1,22 +1,47 @@
 
 namespace TextBasedRPG;
 
-public interface IPlayer
+public interface IPlayer : IEntity
 {
-    int X { get; }
-    int Y { get; }
-    int Health { get; }
-    int MaxHealth { get; }
-    int Hunger { get; }
-    int MaxHunger { get; }
-    bool IsAlive { get; }
-    ITile CurrentTile { get; }
-    IItem EquippedItem { get; }
+    int GetDaysSurvived();
+    Direction GetInput();
 
-    void Move(int deltaX, int deltaY);
-    void Damage(int amount);
-    void Heal(int amount);
-    void IncreaseHunger(int amount);
-    void Eat(IItem item);
-    void EquipItem(IItem item);
+    // Get the player's current health
+    int GetHealth();
+
+    // Get the player's maximum health
+    int GetMaxHealth();
+
+    // Set the player's health
+    void SetHealth(int health);
+
+    // Get the player's hunger level
+    int GetHunger();
+
+    // Set the player's hunger level
+    void SetHunger(int hunger);
+
+    // Get the player's equipped item
+    IItem GetEquippedItem();
+
+    // Set the player's equipped item
+    void SetEquippedItem(IItem item);
+
+    // Get the player's current position in the world
+    (int x, int y) GetPosition();
+
+    // Set the player's current position in the world
+    void SetPosition(int x, int y);
+
+    // Check if the player is alive
+    bool IsAlive();
+
+    // Move the player in a given direction
+    void Move(Direction direction);
+
+    // Attack an enemy in a given direction
+    void Attack(Direction direction);
+
+    // Eat a food item to restore hunger and health
+    void Eat(IItem food);
 }
