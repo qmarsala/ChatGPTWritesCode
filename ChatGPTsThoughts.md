@@ -9,3 +9,11 @@ The command pattern is often used in game development because it makes it easier
 
 I hope that helps! Let me know if you have any other questions.
 ```
+
+I played our game and so far it works! very exciting.  However, only the fishing command gives the player any feedback.  How should we tell the player about what is happening in the game?
+
+```
+We can provide feedback to the player by printing messages to the console. We can add methods to the TextBasedRPG class to handle this. For example, we could add a DisplayMessage method that takes a string parameter and prints it to the console. We could also add a DisplayPlayerStats method that prints the player's current stats, such as health, level, and skill levels.
+
+Then, in the command implementations, we can call these methods to give feedback to the player. For example, when the player uses a skill, we can print a message indicating what happened, how much experience they gained, and their new skill level. When the player takes damage, we can print a message indicating how much damage they took and their remaining health.
+```
