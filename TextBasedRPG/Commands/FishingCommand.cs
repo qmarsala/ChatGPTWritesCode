@@ -16,6 +16,6 @@ public class FishingCommand : ICommand
     public void Execute(Player player)
     {
         player.Fishing.GainExperience(_xpAmount);
-        _outputService.WriteLine($"You have gained {_xpAmount} fishing experience!");
+        _outputService.WriteLine($"You cast your line and catch a fish, gaining {_xpAmount} XP in Fishing!");
     }
 }

@@ -6,16 +6,17 @@ public class CookingCommand : ICommand
     public string Description => "Cook some food";
 
     private IOutputService _outputService;
-    private int xp;
+    private int _xpAmount;
 
     public CookingCommand(IOutputService outputService, int xp)
     {
         _outputService = outputService;
-        this.xp = xp;
+        _xpAmount = xp;
     }
 
     public void Execute(Player player)
     {
-        player.Cooking.GainExperience(xp);
+        _outputService.WriteLine($"You cook a meal, gaining {_xpAmount} XP in Cooking!");
+        player.Cooking.GainExperience(_xpAmount);
     }
 }

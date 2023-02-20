@@ -8,16 +8,17 @@ public class WoodcuttingCommand : ICommand
     private readonly IOutputService _outputService;
 
 
-    private int xp;
+    private int _xpAmount;
 
     public WoodcuttingCommand(IOutputService outputService, int xp)
     {
         _outputService = outputService;
-        this.xp = xp;
+        _xpAmount = xp;
     }
 
     public void Execute(Player player)
     {
-        player.Woodcutting.GainExperience(xp);
+        _outputService.WriteLine($"You chop down a tree, gaining {_xpAmount} XP in Woodcutting!");
+        player.Woodcutting.GainExperience(_xpAmount);
     }
 }

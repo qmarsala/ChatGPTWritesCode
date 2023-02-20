@@ -6,16 +6,17 @@ public class CombatCommand : ICommand
     public string Description => "Fight a monster";
 
     private readonly IOutputService _outputService;
-    private int xp;
+    private int _xpAmount;
 
     public CombatCommand(IOutputService outputService, int xp)
     {
         _outputService = outputService;
-        this.xp = xp;
+        _xpAmount = xp;
     }
 
     public void Execute(Player player)
     {
-        player.Combat.GainExperience(xp);
+        _outputService.WriteLine($"You engage in combat, gaining {_xpAmount} XP in Combat!");
+        player.Combat.GainExperience(_xpAmount);
     }
 }

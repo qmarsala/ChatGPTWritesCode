@@ -5,16 +5,17 @@ public class FiremakingCommand : ICommand
     public static string CommandString => "fire";
     public string Description => "Make a fire";
     private readonly IOutputService _outputService;
-    private int xp;
+    private int _xpAmount;
 
     public FiremakingCommand(IOutputService outputService, int xp)
     {
         _outputService = outputService;
-        this.xp = xp;
+        _xpAmount = xp;
     }
 
     public void Execute(Player player)
     {
-        player.Firemaking.GainExperience(xp);
+        _outputService.WriteLine($"You light a fire, gaining {_xpAmount} XP in Firemaking!");
+        player.Firemaking.GainExperience(_xpAmount);
     }
 }
