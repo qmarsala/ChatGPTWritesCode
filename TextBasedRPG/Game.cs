@@ -15,10 +15,79 @@ public class Game : IGame
 
     public void Start()
     {
-        while (!IsGameOver())
+        Console.WriteLine("Starting game...");
+
+        // Initialize game loop
+        while (_state == GameState.Running)
         {
-            GameLoop();
+            // Update game state
+            Update();
+
+            // Render game state
+            Render();
         }
+
+        Console.WriteLine("Game over.");
+    }
+
+    public void Update()
+    {
+        // Get player input
+        Direction input = _player.GetInput();
+
+        // Move the player
+        _player.Move(input);
+
+        // Decrement player's hunger level
+        _player.Hunger--;
+
+        // Check if player is still alive
+        if (!_player.IsAlive)
+        {
+            _state = GameState.Lost;
+            return;
+        }
+        // Check if the player is starving
+        if (_player.Hunger <= 0)
+        {
+            _player.Health--;
+        }
+        // Check if player has won
+        if (HasPlayerWon())
+        {
+            _state = GameState.Won;
+            return;
+        }
+
+        // Update world state
+        _world.Update(_player);
+    }
+
+    public void Render()
+    {
+        // Clear the console
+        Console.Clear();
+
+        // Iterate over each tile in the world
+        for (int y = 0; y < _world.Height; y++)
+        {
+            for (int x = 0; x < _world.Width; x++)
+            {
+                ITile tile = _world.GetTileAt(x, y);
+
+                // Print the tile's symbol to the console
+                Console.Write(tile.Symbol);
+            }
+
+            // Move to the next line
+            Console.WriteLine();
+        }
+
+        // Print the player's position and stats
+        Console.WriteLine($"Player position: ({_player.X}, {_player.Y})");
+        Console.WriteLine($"Health: {_player.Health} / {_player.MaxHealth}");
+        Console.WriteLine($"Hunger: {_player.Hunger} / 100");
+        Console.WriteLine($"Equipped item: {_player.EquippedItem?.Name ?? "None"}");
     }
 
     public void End()
@@ -54,27 +123,5 @@ public class Game : IGame
     public bool HasPlayerLost()
     {
         return !_player.IsAlive;
-    }
-
-    private void GameLoop()
-    {
-        // Get player input
-        Direction direction = _player.GetInput();
-
-        // Update player position
-        ITile newTile = _world.UpdatePlayerPosition(_player, direction);
-
-        // Interact with tile
-        _world.InteractWithTile(_player, newTile);
-
-        // Update game state
-        if (HasPlayerWon())
-        {
-            _state = GameState.Won;
-        }
-        else if (HasPlayerLost())
-        {
-            _state = GameState.Lost;
-        }
     }
 }

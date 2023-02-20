@@ -10,4 +10,5 @@ public interface IPlayer : IEntity
     bool IsAlive { get; }
     
     Direction GetInput();
+    void Move(Direction direction);
 }
