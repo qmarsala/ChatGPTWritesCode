@@ -59,25 +59,22 @@ public class World : IWorld
 
         switch (direction)
         {
-            case Direction.Up:
-                y--;
+            case Direction.North:
+                y -= 1;
                 break;
-            case Direction.Down:
-                y++;
+            case Direction.South:
+                y += 1;
                 break;
-            case Direction.Left:
-                x--;
+            case Direction.West:
+                x -= 1;
                 break;
-            case Direction.Right:
-                x++;
+            case Direction.East:
+                x += 1;
                 break;
+            default:
+                throw new ArgumentException("Invalid direction.");
         }
 
-        if (x < 0 || x >= _tiles.GetLength(0) || y < 0 || y >= _tiles.GetLength(1))
-        {
-            return false;
-        }
-
-        return true;
+        return IsInsideWorld(x, y) && _tiles[x, y].IsAccessible;
     }
 }
