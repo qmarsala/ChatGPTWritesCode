@@ -1,6 +1,5 @@
 namespace ConsoleQuest
 {
-
     public class MazeRenderer
     {
         private Maze _maze;
@@ -14,7 +13,7 @@ namespace ConsoleQuest
 
         public void Render()
         {
-            for (int j = 0; j < _maze.Height; j++)
+            for (int j = _maze.Height - 1; j > 0; j--)
             {
                 for (int i = 0; i < _maze.Width; i++)
                 {
