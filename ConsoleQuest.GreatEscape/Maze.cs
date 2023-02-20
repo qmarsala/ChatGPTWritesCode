@@ -12,12 +12,12 @@ namespace ConsoleQuest
         {
             Width = width;
             Height = height;
-            _grid = new bool[width, height];
+            Grid = new bool[width, height];
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    _grid[i, j] = true;
+                    Grid[i, j] = true;
                 }
             }
         }
@@ -28,7 +28,7 @@ namespace ConsoleQuest
             {
                 return;
             }
-            _grid[x, y] = true;
+            Grid[x, y] = true;
         }
 
         public bool IsWall(int x, int y)
@@ -37,12 +37,12 @@ namespace ConsoleQuest
             {
                 return false;
             }
-            return _grid[x, y];
+            return Grid[x, y];
         }
 
         public void RemoveWall(int row, int col)
         {
-            _grid[row, col] = false;
+            Grid[row, col] = false;
         }
     }
 }
