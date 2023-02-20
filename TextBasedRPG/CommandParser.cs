@@ -7,11 +7,11 @@ class CommandParser
     public CommandParser()
     {
         commands.Add("quit", new QuitCommand());
-        commands.Add("fish", new FishCommand());
-        commands.Add("chop", new ChopCommand());
-        commands.Add("fire", new FireCommand());
-        commands.Add("cook", new CookCommand());
-        commands.Add("fight", new FightCommand());
+        commands.Add("fish", new FishingCommand());
+        commands.Add("chop", new WoodcuttingCommand());
+        commands.Add("fire", new FiremakingCommand());
+        commands.Add("cook", new CookingCommand());
+        commands.Add("fight", new CombatCommand());
     }
 
     public ICommand Parse(string input)

@@ -2,9 +2,13 @@ namespace TextBasedRPG;
 
 class QuitCommand : ICommand
 {
-    public void Execute(Player player, string[] args)
+    public string CommandString => "quit";
+
+    public string Description => "Quits the game";
+
+    public void Execute(Player player)
     {
-        // Exit the game loop
-        Environment.Exit(0);
+        player.IsAlive = false;
+        Console.WriteLine("Goodbye!");
     }
 }
