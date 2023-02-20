@@ -55,3 +55,25 @@ can you remind me the theme of the game?
 ```
 Sure! The theme of our game is survival in a wilderness setting, where the player must explore, gather resources, and build tools to survive.
 ```
+
+If we were to not consider anything we have done so far, what would be some good interfaces and abstraction classes to build our game upon?
+```
+If we were to start from scratch and design our game using good interface and abstraction classes, we could start with an IPlayer interface that would define the properties and methods that are common to all players, such as Name, IsAlive, Skills, and GetSkill(string name).
+
+We could then define an ISkill interface that would define the properties and methods that are common to all skills, such as Name, Level, Experience, MaxLevel, LevelUpCost, GainExperience(int amount), and GetNextLevelExperience().
+
+We could then create concrete classes that implement the ISkill interface, such as FishingSkill, HuntingSkill, WoodcuttingSkill, FiremakingSkill, and CookingSkill. Each of these classes would define the specific behavior and attributes of the skill, such as the amount of experience gained for each action, the level-up cost, and the rewards for reaching higher levels.
+
+We could also define a ICommand interface that would define the properties and methods that are common to all commands, such as CommandString and Execute(IPlayer player). We could then create concrete classes that implement the ICommand interface, such as FishingCommand, HuntingCommand, WoodcuttingCommand, FiremakingCommand, and CookingCommand.
+
+Finally, we could create a IOutputService interface that defines the method Print(string message) to handle outputting messages to the user. We could then create a concrete class that implements this interface, such as ConsoleOutputService.
+
+By designing our game with these interfaces and abstractions, we would be able to easily add or remove skills and commands, and could easily swap out different output services as needed.
+```
+
+can you explain what LevelUpCost is?
+```
+LevelUpCost is the amount of resources or experience required for a player to level up a skill. In our game, we have implemented this as a method within the ISkill interface which takes the current level of the skill and returns the cost in resources or experience to level up that skill to the next level.
+
+The implementation of LevelUpCost can vary depending on the game mechanics and design. For example, in a game where a player's skills increase with use, the cost to level up a skill could increase as the skill level increases. Alternatively, in a game where skills are leveled up by spending resources, the cost to level up a skill could increase based on the scarcity of those resources.
+```
