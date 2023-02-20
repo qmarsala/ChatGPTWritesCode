@@ -63,19 +63,16 @@ public class World : IWorld
 
     private (int, int) GetNewPlayerPosition(Direction direction)
     {
-        switch (direction)
+        var (dx, dy) = direction switch
         {
-            case Direction.Up:
-                return (_playerX, _playerY - 1);
-            case Direction.Down:
-                return (_playerX, _playerY + 1);
-            case Direction.Left:
-                return (_playerX - 1, _playerY);
-            case Direction.Right:
-                return (_playerX + 1, _playerY);
-            default:
-                throw new ArgumentException("Invalid direction.");
-        }
+            Direction.North => (0, -1),
+            Direction.South => (0, 1),
+            Direction.West => (-1, 0),
+            Direction.East => (1, 0),
+            _ => throw new ArgumentException("Invalid direction"),
+        };
+
+        return (_playerX + dx, _playerY + dy);
     }
 
     public bool IsInsideWorld(int x, int y)
