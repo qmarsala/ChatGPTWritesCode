@@ -3,47 +3,50 @@ namespace TextBasedRPG;
 
 public class GameLoop
 {
-    private IWorld world;
-    private IPlayer player;
+    private IWorld _world;
+    private IPlayer _player;
 
     public GameLoop(IWorld world, IPlayer player)
     {
-        this.world = world;
-        this.player = player;
+        _world = world;
+        _player = player;
     }
 
     public void Run()
     {
-        while (true)
+        while (_player.IsAlive)
         {
-            // Get current player position
-            var playerPos = world.GetPlayerPosition();
+            var (playerX, playerY) = _world.GetPlayerPosition();
+            Console.WriteLine(_world.GetTileDescription(playerX, playerY));
 
-            // Get tile at player position and display description
-            var tile = world.GetTile(playerPos.x, playerPos.y);
-            Console.WriteLine(tile.Description);
+            Console.Write("Enter a direction (N/S/E/W) or 'Q' to quit: ");
+            var input = Console.ReadLine().ToUpper();
 
-            // Get user input for movement direction
-            Console.Write("Which direction do you want to go? ");
-            var input = Console.ReadLine();
-
-            // Parse user input to direction
-            if (Enum.TryParse<Direction>(input, true, out var direction))
+            switch (input)
             {
-                // Move player if direction is valid
-                if (world.CanMovePlayer(direction))
-                {
-                    world.MovePlayer(direction);
-                }
-                else
-                {
-                    Console.WriteLine("You can't move in that direction.");
-                }
+                case "N":
+                    _world.MovePlayer(Direction.North);
+                    break;
+                case "S":
+                    _world.MovePlayer(Direction.South);
+                    break;
+                case "E":
+                    _world.MovePlayer(Direction.East);
+                    break;
+                case "W":
+                    _world.MovePlayer(Direction.West);
+                    break;
+                case "Q":
+                    Console.WriteLine("Quitting game...");
+                    return;
+                default:
+                    Console.WriteLine("Invalid input.");
+                    break;
             }
-            else
-            {
-                Console.WriteLine("Invalid direction.");
-            }
+
+            Console.WriteLine();
         }
+
+        Console.WriteLine("Game over.");
     }
 }
