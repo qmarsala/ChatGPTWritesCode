@@ -3,55 +3,44 @@ namespace TextBasedRPG;
 
 public class World : IWorld
 {
-    private ITile[,] _tiles;
-    private int _playerX;
-    private int _playerY;
+    private ITile[,] tiles;
     private int width;
     private int height;
-
-    public World()
-    {
-        GenerateWorld(width, height);
-    }
+    private (int x, int y) playerPosition;
 
     public void GenerateWorld(int width, int height)
     {
-        _tiles = new ITile[width, height];
+        this.width = width;
+        this.height = height;
+        tiles = new ITile[width, height];
 
+        // Generate tiles
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                _tiles[x, y] = new Tile();
+                tiles[x, y] = new Tile();
             }
         }
 
-        // Set player starting position
-        int startX = width / 2;
-        int startY = height / 2;
-        MovePlayerTo(startX, startY);
+        // Place player at center of map
+        playerPosition = (width / 2, height / 2);
     }
 
     public ITile GetTile(int x, int y)
     {
-        if (x < 0 || x >= width || y < 0 || y >= height)
-        {
-            return null;
-        }
-
-        return _tiles[x, y];
+        return tiles[x, y];
     }
 
     public void MovePlayerTo(int x, int y)
     {
-        _playerX = x;
-        _playerY = y;
+        playerPosition = (x, y);
     }
 
     public bool CanMovePlayer(Direction direction)
     {
-        int x = _playerX;
-        int y = _playerY;
+        int x = playerPosition.x;
+        int y = playerPosition.y;
 
         switch (direction)
         {
@@ -61,25 +50,33 @@ public class World : IWorld
             case Direction.South:
                 y += 1;
                 break;
-            case Direction.West:
-                x -= 1;
-                break;
             case Direction.East:
                 x += 1;
                 break;
-            default:
-                throw new ArgumentException("Invalid direction.");
+            case Direction.West:
+                x -= 1;
+                break;
         }
 
-        return IsInsideWorld(x, y) && _tiles[x, y].IsAccessible;
+        return IsInsideWorld(x, y) && tiles[x, y].IsAccessible;
+    }
+
+    public (int x, int y) GetPlayerPosition()
+    {
+        return playerPosition;
+    }
+
+    private bool IsInsideWorld(int x, int y)
+    {
+        return x >= 0 && x < width && y >= 0 && y < height;
     }
 
     public void MovePlayer(Direction direction)
     {
         if (CanMovePlayer(direction))
         {
-            int x = _playerX;
-            int y = _playerY;
+            int x = playerPosition.x;
+            int y = playerPosition.y;
 
             switch (direction)
             {
@@ -101,18 +98,13 @@ public class World : IWorld
 
     public string GetTileDescription()
     {
-        if (!IsInsideWorld(_playerX, _playerY))
+        if (!IsInsideWorld(playerPosition.x, playerPosition.y))
         {
             return "You are at the edge of the world.";
         }
 
-        ITile tile = GetTile(_playerX, _playerY);
+        ITile tile = GetTile(playerPosition.x, playerPosition.y);
 
         return tile.Description;
-    }
-
-    public bool IsInsideWorld(int x, int y)
-    {
-        return x >= 0 && x < width && y >= 0 && y < height;
     }
 }
