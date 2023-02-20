@@ -15,4 +15,6 @@ public interface IWorld
     // check if the player can move in the specified direction
     bool CanMovePlayer(Direction direction);
     void MovePlayer(Direction direction);
+    // get a description of the tile at the specified position
+    string GetTileDescription(int x, int y);
 }
