@@ -80,9 +80,9 @@ public class World : IWorld
         return x >= 0 && x < _tiles.GetLength(0) && y >= 0 && y < _tiles.GetLength(1);
     }
 
-    public string GetTileDescription()
+    public string GetTileDescription(int x, int y)
     {
-        return GetTile(_playerX, _playerY).Description;
+        return GetTile(x, y).Description;
     }
 
     public (int x, int y) GetPlayerPosition()
