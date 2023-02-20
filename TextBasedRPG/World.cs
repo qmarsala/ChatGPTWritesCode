@@ -3,108 +3,102 @@ namespace TextBasedRPG;
 
 public class World : IWorld
 {
-    private ITile[,] tiles;
-    private int width;
-    private int height;
-    private (int x, int y) playerPosition;
+    private ITile[,] _tiles;
+    private IPlayer _player;
 
     public void GenerateWorld(int width, int height)
     {
-        this.width = width;
-        this.height = height;
-        tiles = new ITile[width, height];
+        _tiles = new ITile[width, height];
 
-        // Generate tiles
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                tiles[x, y] = new Tile();
+                _tiles[x, y] = new Tile { IsAccessible = true };
             }
         }
-
-        // Place player at center of map
-        playerPosition = (width / 2, height / 2);
     }
 
     public ITile GetTile(int x, int y)
     {
-        return tiles[x, y];
-    }
-
-    public void MovePlayerTo(int x, int y)
-    {
-        playerPosition = (x, y);
-    }
-
-    public bool CanMovePlayer(Direction direction)
-    {
-        int x = playerPosition.x;
-        int y = playerPosition.y;
-
-        switch (direction)
+        if (IsInsideWorld(x, y))
         {
-            case Direction.North:
-                y -= 1;
-                break;
-            case Direction.South:
-                y += 1;
-                break;
-            case Direction.East:
-                x += 1;
-                break;
-            case Direction.West:
-                x -= 1;
-                break;
+            return _tiles[x, y];
         }
-
-        return IsInsideWorld(x, y) && tiles[x, y].IsAccessible;
-    }
-
-    public (int x, int y) GetPlayerPosition()
-    {
-        return playerPosition;
-    }
-
-    private bool IsInsideWorld(int x, int y)
-    {
-        return x >= 0 && x < width && y >= 0 && y < height;
+        else
+        {
+            throw new ArgumentException("Coordinates are outside the world bounds");
+        }
     }
 
     public void MovePlayer(Direction direction)
     {
+        int x = _player.X;
+        int y = _player.Y;
+
+        switch (direction)
+        {
+            case Direction.Up:
+                y -= 1;
+                break;
+            case Direction.Down:
+                y += 1;
+                break;
+            case Direction.Left:
+                x -= 1;
+                break;
+            case Direction.Right:
+                x += 1;
+                break;
+            default:
+                throw new ArgumentException("Invalid direction");
+        }
+
         if (CanMovePlayer(direction))
         {
-            int x = playerPosition.x;
-            int y = playerPosition.y;
-
-            switch (direction)
-            {
-                case Direction.North:
-                    MovePlayerTo(x, y - 1);
-                    break;
-                case Direction.South:
-                    MovePlayerTo(x, y + 1);
-                    break;
-                case Direction.East:
-                    MovePlayerTo(x + 1, y);
-                    break;
-                case Direction.West:
-                    MovePlayerTo(x - 1, y);
-                    break;
-            }
+            _player.X = x;
+            _player.Y = y;
         }
     }
 
-    public string GetTileDescription()
+    public bool CanMovePlayer(Direction direction)
     {
-        if (!IsInsideWorld(playerPosition.x, playerPosition.y))
+        int x = _player.X;
+        int y = _player.Y;
+
+        switch (direction)
         {
-            return "You are at the edge of the world.";
+            case Direction.Up:
+                y -= 1;
+                break;
+            case Direction.Down:
+                y += 1;
+                break;
+            case Direction.Left:
+                x -= 1;
+                break;
+            case Direction.Right:
+                x += 1;
+                break;
+            default:
+                throw new ArgumentException("Invalid direction");
         }
 
-        ITile tile = GetTile(playerPosition.x, playerPosition.y);
+        return IsInsideWorld(x, y) && _tiles[x, y].IsAccessible;
+    }
 
-        return tile.Description;
+    public bool IsInsideWorld(int x, int y)
+    {
+        return x >= 0 && x < _tiles.GetLength(0) && y >= 0 && y < _tiles.GetLength(1);
+    }
+
+    public string GetTileDescription(int x, int y)
+    {
+        return GetTile(x, y).Description;
+    }
+
+    public (int X, int Y) GetPlayerPosition()
+    {
+        return (_player.X, _player.Y);
     }
 }
