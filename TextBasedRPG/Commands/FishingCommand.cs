@@ -7,17 +7,15 @@ public class FishingCommand : ICommand
     public string Description => "Attempt to catch a fish";
 
     private readonly int _xpAmount;
-    private readonly FishingSkill _skill;
 
-    public FishingCommand(FishingSkill skill, int xpAmount)
+    public FishingCommand(int xpAmount)
     {
-        _skill = skill;
         _xpAmount = xpAmount;
     }
 
     public void Execute(Player player)
     {
-        _skill.GainExperience(_xpAmount);
+        player.Fishing.GainExperience(_xpAmount);
         Console.WriteLine($"You gained {_xpAmount} experience in Fishing.");
     }
 }

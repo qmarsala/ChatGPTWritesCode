@@ -2,7 +2,7 @@ namespace TextBasedRPG;
 
 public class FiremakingCommand : ICommand
 {
-    public static string CommandString => "make fire";
+    public static string CommandString => "fire";
     public string Description => "Make a fire";
 
     private int xp;

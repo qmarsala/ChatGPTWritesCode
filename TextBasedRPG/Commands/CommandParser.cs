@@ -8,12 +8,12 @@ class CommandParser
     {
         commands = new Dictionary<string, ICommand>
         {
-            { FishingCommand.CommandString, new FishingCommand(player, 10) },
-            { WoodcuttingCommand.CommandString, new WoodcuttingCommand(player, 10) },
-            { FiremakingCommand.CommandString, new FiremakingCommand(player, 10) },
-            { CookingCommand.CommandString, new CookingCommand(player, 10) },
-            { CombatCommand.CommandString, new CombatCommand(player, 10) },
-            { QuitCommand.CommandString, new QuitCommand(player) }
+            { FishingCommand.CommandString, new FishingCommand(10) },
+            { WoodcuttingCommand.CommandString, new WoodcuttingCommand(10) },
+            { FiremakingCommand.CommandString, new FiremakingCommand(10) },
+            { CookingCommand.CommandString, new CookingCommand(10) },
+            { CombatCommand.CommandString, new CombatCommand(10) },
+            { QuitCommand.CommandString, new QuitCommand() }
         };
     }
 
