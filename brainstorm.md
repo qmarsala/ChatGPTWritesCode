@@ -22,3 +22,20 @@ Some ideas for a game name could be:
 "Labyrinth Console Challenge"
 What do you think? Do any of these names sound good or do you have any other ideas for a game name?
 ```
+
+what are some ways we could introduce some different mazes?
+```
+There are a lot of different maze generation algorithms that you could use to create different types of mazes. Here are a few popular ones:
+
+Recursive Backtracker: This is a simple algorithm that creates a winding path through the maze and then randomly connects unvisited cells to create dead ends and loops.
+
+Kruskal's algorithm: This algorithm uses a minimum spanning tree approach to create a maze with a lot of longer dead ends.
+
+Prim's algorithm: This algorithm also uses a minimum spanning tree approach, but creates mazes with more shorter dead ends.
+
+Eller's algorithm: This algorithm creates a maze row by row and tends to produce mazes with long horizontal paths and shorter vertical paths.
+
+Hunt and Kill: This algorithm starts with a random cell and creates a path until it hits a dead end. Then it "hunts" for an unvisited cell that is adjacent to the path and continues the process.
+
+There are many other algorithms as well, and each one produces a different type of maze with different properties.
+```
