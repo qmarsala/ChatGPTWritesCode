@@ -1,8 +1,9 @@
 namespace TextBasedRPG;
 
+
 public class WoodcuttingCommand : ICommand
 {
-    public string CommandString => "chop";
+    public static string CommandString => "chop";
     public string Description => "Chop some wood";
 
     private int xp;

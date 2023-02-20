@@ -2,7 +2,7 @@ namespace TextBasedRPG;
 
 public class CookingCommand : ICommand
 {
-    public string CommandString => "cook";
+    public static string CommandString => "cook";
     public string Description => "Cook some food";
     private int xp;
 

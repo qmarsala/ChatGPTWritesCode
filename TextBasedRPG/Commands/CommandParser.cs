@@ -6,12 +6,15 @@ class CommandParser
 
     public CommandParser()
     {
-        commands.Add("quit", new QuitCommand());
-        commands.Add("fish", new FishingCommand());
-        commands.Add("chop", new WoodcuttingCommand());
-        commands.Add("fire", new FiremakingCommand());
-        commands.Add("cook", new CookingCommand());
-        commands.Add("fight", new CombatCommand());
+        commands = new Dictionary<string, ICommand>
+        {
+            { FishingCommand.CommandString, new FishingCommand(player, 10) },
+            { WoodcuttingCommand.CommandString, new WoodcuttingCommand(player, 10) },
+            { FiremakingCommand.CommandString, new FiremakingCommand(player, 10) },
+            { CookingCommand.CommandString, new CookingCommand(player, 10) },
+            { CombatCommand.CommandString, new CombatCommand(player, 10) },
+            { QuitCommand.CommandString, new QuitCommand(player) }
+        };
     }
 
     public ICommand Parse(string input)

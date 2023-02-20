@@ -2,7 +2,7 @@ namespace TextBasedRPG;
 
 public class CombatCommand : ICommand
 {
-    public string CommandString => "fight";
+    public static string CommandString => "fight";
     public string Description => "Fight a monster";
 
     private int xp;

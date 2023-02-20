@@ -2,7 +2,7 @@ namespace TextBasedRPG;
 
 class QuitCommand : ICommand
 {
-    public string CommandString => "quit";
+    public static string CommandString => "quit";
 
     public string Description => "Quits the game";
 
