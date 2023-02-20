@@ -17,4 +17,6 @@ public interface IWorld
     void MovePlayer(Direction direction);
     // get a description of the tile at the specified position
     string GetTileDescription();
+
+    (int x, int y) GetPlayerPosition();
 }
