@@ -3,39 +3,67 @@ namespace TextBasedRPG;
 
 public class TileGenerator
 {
-    private readonly string[] _tileDescriptions;
+    private const int NumItems = 2;
+    private const int NumEnemies = 2;
 
-    public TileGenerator(string[] tileDescriptions)
+    private static readonly string[] GroundTileDescriptions = {
+        "You see a patch of grass.",
+        "You see a dirt path.",
+        "You see a rocky outcropping.",
+        "You see a dry riverbed.",
+        "You see a sandy dune.",
+        "You see a clump of bushes."
+    };
+
+    private static readonly string[] ItemTileDescriptions = {
+        "You see a shiny object on the ground.",
+        "You see a glint of light coming from a nearby bush.",
+        "You see a small pouch lying on the ground.",
+        "You see a wooden crate with the lid slightly ajar.",
+        "You see a pile of coins on the ground.",
+        "You see a glowing object in the distance."
+    };
+
+    private static readonly string[] EnemyTileDescriptions = {
+        "You see a ferocious monster!",
+        "You hear a growling noise nearby.",
+        "You see a group of bandits in the distance.",
+        "You see a mysterious figure lurking in the shadows."
+    };
+
+    private static readonly string ExitTileDescription = "You see the exit to the next level!";
+
+    private readonly Random _random;
+
+    public TileGenerator(int seed)
     {
-        _tileDescriptions = tileDescriptions;
+        _random = new Random(seed);
     }
 
-    public Tile GenerateTile(int x, int y)
+    public ITile GenerateTile()
     {
-        var random = new Random(x * 1000 + y);
+        var rand = _random.Next(100);
 
-        if (x == 0 || y == 0 || x == _width - 1 || y == _height - 1)
+        if (rand < 60)
         {
-            return new Tile(TileType.Wall, "Wall");
+            return new Tile(TileType.Ground, GetRandomDescription(GroundTileDescriptions));
         }
-
-        // Generate a random tile type
-        TileType type = random.Next(100) < _wallPercent ? TileType.Wall : TileType.Floor;
-
-        // Ensure that the generated tile is accessible
-        if (type == TileType.Wall && AreTilesSurroundedByWalls(x, y))
+        else if (rand < 80)
         {
-            type = TileType.Floor;
+            return new Tile(TileType.Item, GetRandomDescription(ItemTileDescriptions));
         }
-
-        return new Tile(type, GetTileDescription(type));
+        else if (rand < 95)
+        {
+            return new Tile(TileType.Enemy, GetRandomDescription(EnemyTileDescriptions));
+        }
+        else
+        {
+            return new Tile(TileType.Exit, ExitTileDescription);
+        }
     }
 
-    private bool AreTilesSurroundedByWalls(int x, int y)
+    private string GetRandomDescription(string[] descriptions)
     {
-        return _tiles[x - 1, y].Type == TileType.Wall &&
-               _tiles[x + 1, y].Type == TileType.Wall &&
-               _tiles[x, y - 1].Type == TileType.Wall &&
-               _tiles[x, y + 1].Type == TileType.Wall;
+        return descriptions[_random.Next(descriptions.Length)];
     }
 }
