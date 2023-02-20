@@ -1,42 +1,46 @@
 
 namespace TextBasedRPG;
 
-public class Player : IPlayer
+public class Player
 {
-    public string Name { get; }
-    public int Health { get; private set; }
-    public bool IsAlive => Health > 0;
+    public int X { get; set; }
+    public int Y { get; set; }
+    public int Health { get; set; }
+    public int Hunger { get; set; }
+    public int DaySurvived { get; set; }
+    public int DistanceTraveled { get; set; }
+    public bool HasKey { get; set; }
 
-    public IEnumerable<IItem> Inventory => inventory;
-    private List<IItem> inventory = new List<IItem>();
-
-    public Player(string name, int health)
+    public Player(int x, int y)
     {
-        Name = name;
-        Health = health;
+        X = x;
+        Y = y;
+        Health = 100;
+        Hunger = 100;
+        DaySurvived = 0;
+        DistanceTraveled = 0;
+        HasKey = false;
     }
 
-    public void TakeDamage(int amount)
+    public void Move(int x, int y)
     {
-        Health -= amount;
-        if (Health < 0)
-        {
-            Health = 0;
-        }
+        X = x;
+        Y = y;
+        DistanceTraveled++;
     }
 
-    public void Heal(int amount)
+    public void IncrementDaySurvived()
     {
-        Health += amount;
+        DaySurvived++;
     }
 
-    public void AddToInventory(IItem item)
+    public void Eat()
     {
-        inventory.Add(item);
+        Hunger = 100;
     }
 
-    public void RemoveFromInventory(IItem item)
+    public void TakeDamage(int damage)
     {
-        inventory.Remove(item);
+        Health -= damage;
     }
 }
