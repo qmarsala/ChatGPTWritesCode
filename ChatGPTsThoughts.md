@@ -116,3 +116,28 @@ I was thinking about our gameloop. I think we should change it a bit.  Instead o
 ```
 That's a great idea! It would add more variety to the game and make the transitions between day and night smoother. By having four different phases, we could also add different effects and events depending on the time of day, which would make the game more interesting and challenging.
 ```
+
+I think we have mixed up some implementation details.  perhaps we should take a step back and define some good interfaces for our game.  Our new ideas are you build a survival game, where our player must survive for 100 days, or find the exit tile.  They will need to find food to stave off hunger, and fight off enemies.  They lose if they die from hunger or injury. 
+```
+That sounds like a great plan. Let's start by defining some interfaces for our game:
+
+IGame: This interface will define the overall game, including the game loop, world generation, player management, and win/lose conditions.
+
+IWorld: This interface will define the world, including the size, the tiles that make it up, and the methods to interact with it.
+
+IPlayer: This interface will define the player, including their position, health, and methods to interact with them.
+
+ITile: This interface will define the tiles that make up the world, including their type, properties, and methods to interact with them.
+
+ITileGenerator: This interface will define the tile generator, which creates the tiles for the world.
+
+IEnemy: This interface will define the enemies in the game, including their health, damage, and methods to interact with them.
+
+IItem: This interface will define the items in the game, including their type, properties, and methods to interact with them.
+
+IFood: This interface will define the food in the game, including their type, properties, and methods to interact with them.
+
+ICombat: This interface will define the combat system, including how damage is calculated, how health is affected, and how combat is resolved.
+
+With these interfaces in place, we can start building the game.
+```
