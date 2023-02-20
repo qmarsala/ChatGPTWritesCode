@@ -4,16 +4,16 @@ class CommandParser
 {
     private Dictionary<string, ICommand> commands = new Dictionary<string, ICommand>();
 
-    public CommandParser()
+    public CommandParser(IOutputService outputService)
     {
         commands = new Dictionary<string, ICommand>
         {
-            { FishingCommand.CommandString, new FishingCommand(10) },
-            { WoodcuttingCommand.CommandString, new WoodcuttingCommand(10) },
-            { FiremakingCommand.CommandString, new FiremakingCommand(10) },
-            { CookingCommand.CommandString, new CookingCommand(10) },
-            { CombatCommand.CommandString, new CombatCommand(10) },
-            { QuitCommand.CommandString, new QuitCommand() }
+            { FishingCommand.CommandString, new FishingCommand(outputService, 10) },
+            { WoodcuttingCommand.CommandString, new WoodcuttingCommand(outputService, 10) },
+            { FiremakingCommand.CommandString, new FiremakingCommand(outputService, 10) },
+            { CookingCommand.CommandString, new CookingCommand(outputService, 10) },
+            { CombatCommand.CommandString, new CombatCommand(outputService, 10) },
+            { QuitCommand.CommandString, new QuitCommand(outputService) }
         };
     }
 

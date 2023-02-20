@@ -2,7 +2,7 @@ namespace TextBasedRPG;
 
 public class FishingCommand : ICommand
 {
-    public string CommandString => "fish";
+    public static string CommandString => "fish";
     public string Description => "Go fishing";
     private readonly IOutputService _outputService;
     private readonly int _xpAmount;
