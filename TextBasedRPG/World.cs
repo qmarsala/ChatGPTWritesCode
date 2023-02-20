@@ -62,7 +62,7 @@ public class World
         // Place the player in a random location
         int playerX = _random.Next(_width);
         int playerY = _random.Next(_height);
-        _player.SetPosition(playerX, playerY);
+        _player.Move(playerX, playerY);
         _tiles[playerX, playerY].IsPlayerOnTile = true;
     }
 
@@ -74,8 +74,8 @@ public class World
         _tiles[oldPlayerX, oldPlayerY].IsPlayerOnTile = false;
         _tiles[x, y].IsPlayerOnTile = true;
 
-        _player.SetPosition(x, y);
+        _player.Move(x, y);
 
-        _player.IncreaseDaysSurvived();
+        _player.IncrementDaySurvived();
     }
 }
