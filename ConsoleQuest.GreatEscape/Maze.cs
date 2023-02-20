@@ -4,7 +4,9 @@ namespace ConsoleQuest
     {
         public int Width { get; }
         public int Height { get; }
-        private readonly bool[,] _grid;
+        public bool[,] Grid { get; }
+        public (int x, int y) Start { get; set; }
+        public (int x, int y) End { get; set; }
 
         public Maze(int width, int height)
         {

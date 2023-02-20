@@ -31,6 +31,8 @@ namespace ConsoleQuest
             int endCol = cols - 1;
 
             maze.RemoveWall(startRow, startCol);
+            maze.Start = (startRow, startCol);
+            maze.End = (endRow, endCol);
 
             while (!PathExists(maze, startRow, startCol, endRow, endCol))
             {
