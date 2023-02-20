@@ -102,3 +102,12 @@ We could add error handling to handle unexpected input or game states.
 
 We could add more features to the game, such as combat, crafting, or questing, to make the game more interesting and engaging.
 ```
+
+What do you think about having every 6 game loops be a day cycle, then 6 are a night cycle?
+```
+Having a day-night cycle in a game can be a nice addition and can add to the overall atmosphere and immersion. Having a cycle that alternates between six game loops for the day and six game loops for the night could work, but it really depends on the specific game and the pacing of the gameplay.
+
+For example, if the game is meant to be fast-paced and action-packed, having a slower day-night cycle might not fit the gameplay. On the other hand, if the game is meant to be more relaxing or have a focus on exploration, having a day-night cycle could be a nice touch to add to the experience.
+
+Ultimately, whether a day-night cycle would work well in a specific game depends on a lot of different factors, and it's up to the game designer to make the call based on their vision for the game.
+```
