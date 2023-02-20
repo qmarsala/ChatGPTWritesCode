@@ -1,6 +1,9 @@
 namespace TextBasedRPG;
 
-interface ICommand
+public interface ICommand
 {
-    void Execute(Player player, string[] args);
+    string CommandString { get; }
+    string Description { get; }
+    void Execute(Player player);
 }
+
