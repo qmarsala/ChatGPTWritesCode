@@ -1,135 +1,81 @@
 
 namespace TextBasedRPG;
 
-public class World : IWorld
+public class World
 {
+    private readonly Random _random;
+    private readonly ITileGenerator _tileGenerator;
+    private readonly int _width;
+    private readonly int _height;
+    private readonly Player _player;
     private ITile[,] _tiles;
-    private int _playerX;
-    private int _playerY;
-    public int Width { get; private set; }
-    public int Height { get; private set; }
-    private readonly TileGenerator _tileGenerator;
 
-    public World(int width, int height, TileGenerator tileGenerator)
+    public World(Random random, ITileGenerator tileGenerator, int width, int height)
     {
-        _tiles = new ITile[width, height];
-        Width = width;
-        Height = height;
+        _random = random;
         _tileGenerator = tileGenerator;
+        _width = width;
+        _height = height;
+        _player = new Player();
+
+        GenerateWorld();
     }
 
-    public void GenerateWorld()
-    {
-        _tiles = new ITile[Width, Height];
+    public ITile[,] Tiles => _tiles;
 
-        for (int x = 0; x < Width; x++)
-        {
-            for (int y = 0; y < Height; y++)
-            {
-                _tiles[x, y] = _tileGenerator.GenerateTile();
-            }
-        }
-    }
+    public int Width => _width;
 
-    public ITile GetTile(int x, int y)
-    {
-        if (IsInsideWorld(x, y))
-        {
-            return _tiles[x, y];
-        }
-        else
-        {
-            throw new ArgumentException("Coordinates are outside the world bounds");
-        }
-    }
+    public int Height => _height;
 
-    public bool CanMovePlayer(Direction direction)
-    {
-        var (newX, newY) = GetNewPlayerPosition(direction);
-        return IsInsideWorld(newX, newY) && GetTile(newX, newY).IsAccessible;
-    }
+    public Player Player => _player;
 
-    public void MovePlayer(Direction direction)
-    {
-        if (CanMovePlayer(direction))
-        {
-            var (newX, newY) = GetNewPlayerPosition(direction);
-            UpdatePlayerPosition(newX, newY);
-        }
-    }
-
-    public void MovePlayerTo(int x, int y)
-    {
-        if (IsInsideWorld(x, y) && GetTile(x, y).IsAccessible)
-        {
-            _playerX = x;
-            _playerY = y;
-        }
-        else
-        {
-            throw new ArgumentException("Cannot move player to the specified position");
-        }
-    }
-
-    private (int, int) GetNewPlayerPosition(Direction direction)
-    {
-        var (dx, dy) = direction switch
-        {
-            Direction.North => (0, -1),
-            Direction.South => (0, 1),
-            Direction.West => (-1, 0),
-            Direction.East => (1, 0),
-            _ => throw new ArgumentException("Invalid direction"),
-        };
-
-        return (_playerX + dx, _playerY + dy);
-    }
-
-    public void UpdatePlayerPosition(int newPlayerX, int newPlayerY)
+    public bool UpdatePlayerPosition(int newPlayerX, int newPlayerY)
     {
         // Check if the player has reached the boundary of the world
-        if (newPlayerX <= 0)
+        if (newPlayerX < 0 || newPlayerX >= Width || newPlayerY < 0 || newPlayerY >= Height)
         {
-            newPlayerX = 1;
-            MovePlayerTo(newPlayerX, newPlayerY);
-            GenerateWorld();
+            return false;
         }
-        else if (newPlayerX >= Width - 1)
+
+        MovePlayerTo(newPlayerX, newPlayerY);
+
+        if (_tiles[newPlayerX, newPlayerY] is ExitTile)
         {
-            newPlayerX = Width - 2;
-            MovePlayerTo(newPlayerX, newPlayerY);
-            GenerateWorld();
+            _player.Won = true;
         }
-        else if (newPlayerY <= 0)
-        {
-            newPlayerY = 1;
-            MovePlayerTo(newPlayerX, newPlayerY);
-            GenerateWorld();
-        }
-        else if (newPlayerY >= Height - 1)
-        {
-            newPlayerY = Height - 2;
-            MovePlayerTo(newPlayerX, newPlayerY);
-            GenerateWorld();
-        }
-        else
-        {
-            MovePlayerTo(newPlayerX, newPlayerY);
-        }
+
+        return true;
     }
 
-    public bool IsInsideWorld(int x, int y)
+    private void GenerateWorld()
     {
-        return x >= 0 && x < _tiles.GetLength(0) && y >= 0 && y < _tiles.GetLength(1);
+        _tiles = new ITile[_width, _height];
+
+        for (int x = 0; x < _width; x++)
+        {
+            for (int y = 0; y < _height; y++)
+            {
+                _tiles[x, y] = _tileGenerator.GenerateTile(_random);
+            }
+        }
+
+        // Place the player in a random location
+        int playerX = _random.Next(_width);
+        int playerY = _random.Next(_height);
+        _player.SetPosition(playerX, playerY);
+        _tiles[playerX, playerY].IsPlayerOnTile = true;
     }
 
-    public string GetTileDescription(int x, int y)
+    private void MovePlayerTo(int x, int y)
     {
-        return GetTile(x, y).Description;
-    }
+        int oldPlayerX = _player.X;
+        int oldPlayerY = _player.Y;
 
-    public (int x, int y) GetPlayerPosition()
-    {
-        return (_playerX, _playerY);
+        _tiles[oldPlayerX, oldPlayerY].IsPlayerOnTile = false;
+        _tiles[x, y].IsPlayerOnTile = true;
+
+        _player.SetPosition(x, y);
+
+        _player.IncreaseDaysSurvived();
     }
 }
