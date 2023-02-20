@@ -17,3 +17,17 @@ We can provide feedback to the player by printing messages to the console. We ca
 
 Then, in the command implementations, we can call these methods to give feedback to the player. For example, when the player uses a skill, we can print a message indicating what happened, how much experience they gained, and their new skill level. When the player takes damage, we can print a message indicating how much damage they took and their remaining health.
 ```
+
+We should generate an interesting message based on the command being executed to give to our output service.  What should we say for Fishing, Woodcutting, Firemaking, Combat, and Cooking?
+
+```
+Sure! Here are some suggestions:
+
+Fishing: "You cast your line into the water and patiently wait for a bite..."
+Woodcutting: "You swing your axe at the tree, chopping away at the trunk..."
+Firemaking: "You gather some twigs and kindling and successfully light a small fire."
+Combat: "You ready your weapon and prepare to do battle with your opponent..."
+Cooking: "You put together a delicious meal, using the ingredients you gathered earlier."
+These are just some examples, but you can certainly come up with your own messages that fit your game's theme and style.
+
+```
