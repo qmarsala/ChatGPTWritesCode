@@ -20,7 +20,12 @@ public class GameLoop
             Console.WriteLine(_world.GetTileDescription(playerX, playerY));
 
             Console.Write("Enter a direction (N/S/E/W) or 'Q' to quit: ");
-            var input = Console.ReadLine().ToUpper();
+            var input = Console.ReadLine()?.ToUpper();
+            if (input == null)
+            {
+                Console.WriteLine("Invalid input.");
+                continue;
+            }
 
             switch (input)
             {
