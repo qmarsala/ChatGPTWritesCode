@@ -25,16 +25,16 @@
 
                 switch (direction)
                 {
-                    case InputHandler.Direction.Up:
+                    case Direction.Up:
                         newRow--;
                         break;
-                    case InputHandler.Direction.Down:
+                    case Direction.Down:
                         newRow++;
                         break;
-                    case InputHandler.Direction.Left:
+                    case Direction.Left:
                         newCol--;
                         break;
-                    case InputHandler.Direction.Right:
+                    case Direction.Right:
                         newCol++;
                         break;
                     default:

@@ -9,7 +9,7 @@ namespace ConsoleQuest
             _maze = maze;
         }
 
-        public void RenderMaze()
+        public void Render()
         {
             Console.Clear();
 
@@ -17,7 +17,7 @@ namespace ConsoleQuest
             {
                 for (int j = 0; j < _maze.Columns; j++)
                 {
-                    if (_maze.GetCell(i, j) == 1)
+                    if (_maze.IsWall(i, j) == 1)
                     {
                         Console.Write("#");
                     }
