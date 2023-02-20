@@ -22,7 +22,7 @@ public class GameLoop
 
             // Get tile at player position and display description
             var tile = world.GetTile(playerPos.x, playerPos.y);
-            Console.WriteLine(tile.GetDescription());
+            Console.WriteLine(tile.Description);
 
             // Get user input for movement direction
             Console.Write("Which direction do you want to go? ");
