@@ -6,15 +6,19 @@ public class World : IWorld
     private ITile[,] _tiles;
     private int _playerX;
     private int _playerY;
+    private readonly int width;
+    private readonly int height;
     private readonly TileGenerator _tileGenerator;
 
     public World(int width, int height, TileGenerator tileGenerator)
     {
         _tiles = new ITile[width, height];
+        this.width = width;
+        this.height = height;
         _tileGenerator = tileGenerator;
     }
 
-    public void GenerateWorld(int width, int height)
+    public void GenerateWorld()
     {
         _tiles = new ITile[width, height];
 

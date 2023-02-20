@@ -7,7 +7,7 @@ class Program
     {
         var tileGenerator = new TileGenerator(10);
         var world = new World(10, 10, tileGenerator);
-        world.GenerateWorld(10, 10);
+        world.GenerateWorld();
 
         var player = new Player("John", 10);
         var gameLoop = new GameLoop(world, player, tileGenerator);

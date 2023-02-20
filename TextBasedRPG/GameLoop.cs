@@ -42,7 +42,7 @@ public class GameLoop
         // Generate new tiles at the start of each day/dusk/night/dawn cycle
         if (_frameCount == 0 || _frameCount == FramesPerDay + FramesPerDusk || _frameCount == FramesPerDay + FramesPerDusk + FramesPerNight)
         {
-            _world.GenerateWorld(_world.Width, _world.Height, _tileGenerator);
+            _world.GenerateWorld();
         }
 
         // Update the player's position and handle collisions with the environment

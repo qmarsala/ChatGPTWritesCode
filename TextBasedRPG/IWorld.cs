@@ -4,7 +4,7 @@ namespace TextBasedRPG;
 public interface IWorld
 {
     // generate the world with the given size
-    void GenerateWorld(int width, int height);
+    void GenerateWorld();
 
     // get the tile at the specified position
     ITile GetTile(int x, int y);
