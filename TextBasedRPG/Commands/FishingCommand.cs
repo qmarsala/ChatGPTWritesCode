@@ -2,20 +2,20 @@ namespace TextBasedRPG;
 
 public class FishingCommand : ICommand
 {
-    public static string CommandString => "fish";
-
-    public string Description => "Attempt to catch a fish";
-
+    public string CommandString => "fish";
+    public string Description => "Go fishing";
+    private readonly IOutputService _outputService;
     private readonly int _xpAmount;
 
-    public FishingCommand(int xpAmount)
+    public FishingCommand(IOutputService outputService, int xpAmount)
     {
+        _outputService = outputService;
         _xpAmount = xpAmount;
     }
 
     public void Execute(Player player)
     {
         player.Fishing.GainExperience(_xpAmount);
-        Console.WriteLine($"You gained {_xpAmount} experience in Fishing.");
+        _outputService.WriteLine($"You have gained {_xpAmount} fishing experience!");
     }
 }
