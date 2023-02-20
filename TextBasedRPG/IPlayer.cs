@@ -3,16 +3,20 @@ namespace TextBasedRPG;
 
 public interface IPlayer
 {
-    int X { get; set; }
-    int Y { get; set; }
-    int Health { get; set; }
+    int X { get; }
+    int Y { get; }
+    int Health { get; }
     int MaxHealth { get; }
-    int Hunger { get; set; }
+    int Hunger { get; }
     int MaxHunger { get; }
     bool IsAlive { get; }
-    bool IsHungry { get; }
+    ITile CurrentTile { get; }
+    IItem EquippedItem { get; }
+
     void Move(int deltaX, int deltaY);
-    void TakeDamage(int damage);
+    void Damage(int amount);
     void Heal(int amount);
-    void Eat(IFood food);
+    void IncreaseHunger(int amount);
+    void Eat(IItem item);
+    void EquipItem(IItem item);
 }
