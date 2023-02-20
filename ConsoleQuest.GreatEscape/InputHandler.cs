@@ -2,16 +2,16 @@ using System;
 
 namespace ConsoleQuest
 {
+    public enum Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right
+    }
+    
     public class InputHandler
     {
-        public enum Direction
-        {
-            Up,
-            Down,
-            Left,
-            Right
-        }
-
         public Direction GetDirection()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
