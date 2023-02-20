@@ -18,37 +18,35 @@
             {
                 InputHandler inputHandler = new InputHandler();
                 var direction = await inputHandler.GetDirectionAsync();
-                int newRow = player.X;
-                int newCol = player.Y;
+                int newX = player.X;
+                int newY = player.Y;
 
                 switch (direction)
                 {
-                    case Direction.Up:
-                        newRow--;
-                        break;
-                    case Direction.Down:
-                        newRow++;
-                        break;
                     case Direction.Left:
-                        newCol--;
+                        newX--;  // decrement newX by 1
                         break;
                     case Direction.Right:
-                        newCol++;
+                        newX++;  // increment newX by 1
                         break;
-                    default:
+                    case Direction.Up:
+                        newY++;
+                        break;
+                    case Direction.Down:
+                        newY--;
                         break;
                 }
 
-                if (maze.IsExit(newRow, newCol))
+                if (maze.IsExit(newX, newY))
                 {
                     Console.WriteLine("Congratulations, you escaped the maze!");
                     break;
                 }
 
-                if (!maze.IsWall(newRow, newCol))
+                if (!maze.IsWall(newX, newY))
                 {
-                    player.X = newRow;
-                    player.Y = newCol;
+                    player.X = newX;
+                    player.Y = newY;
                 }
 
                 mazeRenderer.Render();
