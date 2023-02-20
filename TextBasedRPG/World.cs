@@ -4,7 +4,8 @@ namespace TextBasedRPG;
 public class World : IWorld
 {
     private ITile[,] _tiles;
-    private IPlayer _player;
+    private int _playerX;
+    private int _playerY;
 
     public void GenerateWorld(int width, int height)
     {
@@ -41,8 +42,22 @@ public class World : IWorld
     {
         if (CanMovePlayer(direction))
         {
+            var (newX, newY) = GetNewPlayerPosition(direction);
             _playerX = newX;
             _playerY = newY;
+        }
+    }
+
+    public void MovePlayerTo(int x, int y)
+    {
+        if (IsInsideWorld(x, y) && GetTile(x, y).IsAccessible)
+        {
+            _playerX = x;
+            _playerY = y;
+        }
+        else
+        {
+            throw new ArgumentException("Cannot move player to the specified position");
         }
     }
 
@@ -68,13 +83,13 @@ public class World : IWorld
         return x >= 0 && x < _tiles.GetLength(0) && y >= 0 && y < _tiles.GetLength(1);
     }
 
-    public string GetTileDescription(int x, int y)
+    public string GetTileDescription()
     {
-        return GetTile(x, y).Description;
+        return GetTile(_playerX, _playerY).Description;
     }
 
-    public (int X, int Y) GetPlayerPosition()
+    public (int x, int y) GetPlayerPosition()
     {
-        return (_player.X, _player.Y);
+        return (_playerX, _playerY);
     }
 }
