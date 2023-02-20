@@ -6,25 +6,25 @@ public class World : IWorld
     private ITile[,] _tiles;
     private int _playerX;
     private int _playerY;
-    private readonly int width;
-    private readonly int height;
+    public int Width { get; private set; }
+    public int Height { get; private set; }
     private readonly TileGenerator _tileGenerator;
 
     public World(int width, int height, TileGenerator tileGenerator)
     {
         _tiles = new ITile[width, height];
-        this.width = width;
-        this.height = height;
+        Width = width;
+        Height = height;
         _tileGenerator = tileGenerator;
     }
 
     public void GenerateWorld()
     {
-        _tiles = new ITile[width, height];
+        _tiles = new ITile[Width, Height];
 
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < Width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < Height; y++)
             {
                 _tiles[x, y] = _tileGenerator.GenerateTile();
             }

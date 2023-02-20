@@ -53,29 +53,30 @@ public class GameLoop
         }
     }
 
-    private void Render()
+    public void Render()
     {
-        // Render the world and player information based on the current time of day
-        var timeOfDay = GetTimeOfDay();
-        switch (timeOfDay)
+        Console.Clear();
+
+        for (int y = 0; y < _world.Height; y++)
         {
-            case TimeOfDay.Day:
-                // Render the world with a bright and clear sky
-                break;
-            case TimeOfDay.Dusk:
-                // Render the world with a dim and orange-tinted sky
-                break;
-            case TimeOfDay.Night:
-                // Render the world with a dark and starry sky
-                break;
-            case TimeOfDay.Dawn:
-                // Render the world with a gradually brightening sky
-                break;
-            default:
-                throw new InvalidOperationException("Invalid time of day");
+            for (int x = 0; x < _world.Width; x++)
+            {
+                var tile = _world.GetTile(x, y);
+                var playerPosition = _world.GetPlayerPosition();
+                if (x == playerPosition.x && y == playerPosition.y)
+                {
+                    Console.Write("@");
+                }
+                else
+                {
+                    Console.Write(tile.Character);
+                }
+            }
+
+            Console.WriteLine();
         }
 
-        // Render the player's position and status
+        Console.WriteLine("Player: " + _player.Name + " Health: " + _player.Health);
     }
 
     public Direction GetPlayerInput()

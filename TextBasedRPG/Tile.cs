@@ -1,16 +1,9 @@
 
 namespace TextBasedRPG;
 
-public class Tile : ITile
+public class GroundTile : ITile
 {
-    public TileType Type { get; }
-    public string Description { get; set; }
-    public string Name { get; set; }
-    public bool IsAccessible { get; set; }
-
-    public Tile(TileType type, string description)
-    {
-        Type = type;
-        Description = description;
-    }
+    public string Description => "You are standing on a patch of grass.";
+    public bool IsAccessible => true;
+    public char Character => '.';
 }

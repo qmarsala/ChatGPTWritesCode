@@ -3,6 +3,9 @@ namespace TextBasedRPG;
 
 public interface IWorld
 {
+    int Height { get; }
+    int Width { get; }
+
     // generate the world with the given size
     void GenerateWorld();
 
