@@ -1,6 +1,14 @@
 ﻿
 namespace TextBasedRPG;
 
+public interface ITile
+{
+    string Name { get; set; }
+    string Description { get; set; }
+    bool IsAccessible { get; set; }
+}
+
+
 public interface IWorld {
     // generate the world with the given size
     void GenerateWorld(int width, int height);
