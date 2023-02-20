@@ -4,22 +4,27 @@ namespace ConsoleQuest
 {
     public class MazeGenerator
     {
-        private readonly Maze maze;
-
-        public MazeGenerator(int width, int height)
+        public static Maze GenerateMaze(int width, int height)
         {
-            maze = new Maze(width, height);
-            maze.Start = (0, 0);
-            maze.End = (width - 1, height - 1);
-        }
+            Maze maze = new Maze(width, height);
 
-        public Maze GenerateMaze()
-        {
-            for (int i = 0; i < maze.Width; i++)
+            // Starting position
+            maze.Start = (0, height / 2);
+            maze.RemoveWall(maze.Start.x, maze.Start.y);
+
+            // Ending position
+            maze.End = (width - 1, height / 2);
+            maze.RemoveWall(maze.End.x, maze.End.y);
+
+            // Add walls to block off other areas
+            for (int x = 0; x < width; x++)
             {
-                for (int j = 0; j < maze.Height; j++)
+                for (int y = 0; y < height; y++)
                 {
-                    maze.Grid[i, j] = false;
+                    if ((x != 0 || y != height / 2) && (x != width - 1 || y != height / 2))
+                    {
+                        maze.SetWall(x, y);
+                    }
                 }
             }
 
