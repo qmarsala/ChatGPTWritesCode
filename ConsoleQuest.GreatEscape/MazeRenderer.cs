@@ -14,27 +14,39 @@ namespace ConsoleQuest
         public void Render()
         {
             Console.Clear();
-            for (int y = 0; y < _maze.Height; y++)
+
+            int playerX = _player.X;
+            int playerY = _player.Y;
+            int renderRadius = 2; // Change this to control how many spaces are visible around the player
+
+            int startX = Math.Max(0, playerX - renderRadius);
+            int endX = Math.Min(_maze.Width, playerX + renderRadius + 1);
+
+            int startY = Math.Max(0, playerY - renderRadius);
+            int endY = Math.Min(_maze.Height, playerY + renderRadius + 1);
+
+            for (int y = startY; y < endY; y++)
             {
-                for (int x = 0; x < _maze.Width; x++)
+                for (int x = startX; x < endX; x++)
                 {
                     if (_maze.Grid[x, y])
                     {
                         Console.Write("█");
                     }
-                    else if (_player.X == x && _player.Y == y)
+                    else if (playerX == x && playerY == y)
                     {
-                        Console.Write("P");
+                        Console.Write("@");
                     }
                     else if (_maze.IsExit(x, y))
                     {
-                        Console.Write("E");
+                        Console.Write("[]");
                     }
                     else
                     {
                         Console.Write(" ");
                     }
                 }
+
                 Console.WriteLine();
             }
         }
