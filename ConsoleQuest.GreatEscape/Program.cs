@@ -21,7 +21,7 @@ namespace ConsoleQuest
         static async Task Main()
         {
             int difficulty = GetDifficulty();
-            int renderRadius = difficulty == 1 ? 10 : difficulty == 2 ? 5 : 2;
+            int renderRadius = difficulty == 1 ? 20 : difficulty == 2 ? 10 : 3;
 
             Console.OutputEncoding = Encoding.Unicode;
             Console.CursorVisible = false;
