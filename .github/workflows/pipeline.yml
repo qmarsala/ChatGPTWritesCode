@@ -49,3 +49,4 @@ jobs:
         asset_path: ConsoleQuest.GreatEscape\bin\${{ env.CONFIGURATION }}\net7.0\${{ env.RUNTIME }}\ConsoleQuest.GreatEscape.exe
         asset_name: ConsoleQuest.GreatEscape.exe
         asset_content_type: application/octet-stream
+        token: ${{ secrets.PAT }}
