@@ -40,4 +40,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ConsoleQuest.GreatEscape
-        path: bin/${{ env.CONFIGURATION }}/${{ env.RUNTIME }}/publish/ConsoleQuest.GreatEscape.exe
+        path: ConsoleQuest.GreatEscape\bin\${{ env.CONFIGURATION }}\net7.0\${{ env.RUNTIME }}\ConsoleQuest.GreatEscape.exe
