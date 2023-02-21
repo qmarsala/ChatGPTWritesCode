@@ -21,7 +21,7 @@ namespace ConsoleQuest
         static async Task Main()
         {
             int difficulty = GetDifficulty();
-            int renderRadius = difficulty == 1 ? 20 : difficulty == 2 ? 10 : 3;
+            int renderRadius = difficulty == 1 ? 15 : difficulty == 2 ? 7 : 3;
 
             Console.OutputEncoding = Encoding.Unicode;
             Console.CursorVisible = false;
@@ -36,7 +36,7 @@ namespace ConsoleQuest
             var startTime = DateTime.Now;
 
             // Render initial state of the game
-            var renderer = new MazeRenderer(maze, player);
+            var renderer = new MazeRenderer(maze, player, renderRadius);
             renderer.Render();
 
             // Wait for player to complete maze

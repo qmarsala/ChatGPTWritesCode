@@ -4,11 +4,13 @@ namespace ConsoleQuest
     {
         private Maze _maze;
         private Player _player;
+        private int _renderRadius;
 
-        public MazeRenderer(Maze maze, Player player)
+        public MazeRenderer(Maze maze, Player player, int renderRadius)
         {
             _maze = maze;
             _player = player;
+            _renderRadius = renderRadius;
         }
 
         public void Render()
@@ -17,13 +19,12 @@ namespace ConsoleQuest
 
             int playerX = _player.X;
             int playerY = _player.Y;
-            int renderRadius = 2; // Change this to control how many spaces are visible around the player
 
-            int startX = Math.Max(0, playerX - renderRadius);
-            int endX = Math.Min(_maze.Width, playerX + renderRadius + 1);
+            int startX = Math.Max(0, playerX - _renderRadius);
+            int endX = Math.Min(_maze.Width, playerX + _renderRadius + 1);
 
-            int startY = Math.Max(0, playerY - renderRadius);
-            int endY = Math.Min(_maze.Height, playerY + renderRadius + 1);
+            int startY = Math.Max(0, playerY - _renderRadius);
+            int endY = Math.Min(_maze.Height, playerY + _renderRadius + 1);
 
             for (int y = startY; y < endY; y++)
             {
