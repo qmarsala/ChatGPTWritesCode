@@ -15,9 +15,6 @@ namespace ConsoleQuest
             var maze = mazeGenerator.GenerateMaze();
             var player = new Player(maze.Start.x, maze.Start.y);
 
-            // Initialize player position
-            var playerPosition = maze.Start;
-
             // Start timer
             var startTime = DateTime.Now;
 
@@ -26,26 +23,27 @@ namespace ConsoleQuest
             renderer.Render();
 
             // Wait for player to complete maze
-            while (!maze.IsExit(playerPosition.x, playerPosition.y))
+            while (!maze.IsExit(player.X, player.Y))
             {
                 // Get user input
                 var direction = await inputHandler.GetDirectionAsync();
 
                 // Calculate new player position
-                var newPosition = playerPosition switch
+                var newPosition = direction switch
                 {
-                    (int x, int y) pos when direction == Direction.Up => (x, y - 1),
-                    (int x, int y) pos when direction == Direction.Down => (x, y + 1),
-                    (int x, int y) pos when direction == Direction.Left => (x - 1, y),
-                    (int x, int y) pos when direction == Direction.Right => (x + 1, y),
-                    _ => playerPosition
+                    Direction.Up => (player.X, player.Y - 1),
+                    Direction.Down => (player.X, player.Y + 1),
+                    Direction.Left => (player.X - 1, player.Y),
+                    Direction.Right => (player.X + 1, player.Y),
+                    _ => (player.X, player.Y)
                 };
 
                 // Check if new position is valid
                 if (!maze.IsWall(newPosition.Item1, newPosition.Item2))
                 {
                     // Update player position
-                    playerPosition = newPosition;
+                    player.X = newPosition.Item1;
+                    player.Y = newPosition.Item2;
 
                     // Render updated state of the game
                     renderer.Render();
