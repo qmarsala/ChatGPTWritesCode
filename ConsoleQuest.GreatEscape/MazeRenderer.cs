@@ -14,7 +14,7 @@ namespace ConsoleQuest
         public void Render()
         {
             Console.Clear();
-            for (int y = _maze.Height - 1; y >= 0; y--)
+            for (int y = 0; y < _maze.Height; y++)
             {
                 for (int x = 0; x < _maze.Width; x++)
                 {
