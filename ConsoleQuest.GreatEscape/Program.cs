@@ -4,8 +4,25 @@ namespace ConsoleQuest
 {
     class Program
     {
+        public static int GetDifficulty()
+        {
+            Console.WriteLine("Please select a difficulty (1 - easy, 2 - medium, 3 - hard):");
+            int difficulty;
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out difficulty) && difficulty >= 1 && difficulty <= 3)
+                {
+                    return difficulty;
+                }
+                Console.WriteLine("Invalid input. Please enter a number between 1 and 3.");
+            }
+        }
+
         static async Task Main()
         {
+            int difficulty = GetDifficulty();
+            int renderRadius = difficulty == 1 ? 10 : difficulty == 2 ? 5 : 2;
+
             Console.OutputEncoding = Encoding.Unicode;
             Console.CursorVisible = false;
             var inputHandler = new InputHandler();
