@@ -36,11 +36,11 @@ namespace ConsoleQuest
                     }
                     else if (playerX == x && playerY == y)
                     {
-                        Console.Write("@");
+                        Console.Write("P");
                     }
                     else if (_maze.IsExit(x, y))
                     {
-                        Console.Write("[]");
+                        Console.Write("E");
                     }
                     else
                     {
