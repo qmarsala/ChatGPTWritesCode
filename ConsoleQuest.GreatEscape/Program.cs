@@ -78,6 +78,11 @@ namespace ConsoleQuest
                     // Render updated state of the game
                     renderer.Render();
                 }
+                else
+                {
+                    Console.WriteLine("You hit a wall! Game Over.");
+                    return;
+                }
             }
 
             // End timer and calculate elapsed time
