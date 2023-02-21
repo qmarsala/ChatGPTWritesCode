@@ -1,6 +1,13 @@
 # Console Quest
 Console Quest is a simple console game that generates mazes and challenges the player to navigate through them. The player starts at the beginning of the maze and must find their way to the end while avoiding obstacles.
 
+## About the Code
+The code for this game was written by ChatGPT, a large language model developed by OpenAI. The human user provided the initial idea and design for the game, and ChatGPT implemented the game mechanics and generated the mazes using various algorithms. The code was written in C# using the .NET Core framework and the Console application template.
+
+The game was developed using an iterative approach, with the user providing feedback and making suggestions throughout the development process. ChatGPT used their natural language processing capabilities to interpret and respond to the user's feedback, making updates and changes to the code as needed.
+
+While the game is relatively simple, it serves as an example of how language models like ChatGPT can be used to generate code and work collaboratively with humans on software development projects.
+
 ## How to Play
 When the game starts, you will be asked to select a difficulty level. The available options are easy, medium, and hard. The difficulty level will determine how far you can see around you in the maze.
 
