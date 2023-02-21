@@ -36,11 +36,9 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: ConsoleQuest.GreatEscape
-        path: ConsoleQuest.GreatEscape\bin\${{ env.CONFIGURATION }}\net7.0\${{ env.RUNTIME }}\ConsoleQuest.GreatEscape.exe
+    - name: Zip publish directory
+      run: |
+        7z a -tzip publish.zip ConsoleQuest.GreatEscape\bin\${{ env.CONFIGURATION }}\net7.0\${{ env.RUNTIME }}\publish
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
@@ -48,6 +46,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ConsoleQuest.GreatEscape\bin\${{ env.CONFIGURATION }}\net7.0\${{ env.RUNTIME }}\ConsoleQuest.GreatEscape.exe
-        asset_name: ConsoleQuest.GreatEscape.exe
-        asset_content_type: application/octet-stream
+        asset_path: ./publish.zip
+        asset_name: ConsoleQuest.GreatEscape.zip
+        asset_content_type: application/zip
