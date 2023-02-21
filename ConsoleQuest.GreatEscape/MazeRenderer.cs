@@ -13,19 +13,20 @@ namespace ConsoleQuest
 
         public void Render()
         {
-            for (int j = _maze.Height - 1; j > 0; j--)
+            Console.Clear();
+            for (int y = _maze.Height - 1; y >= 0; y--)
             {
-                for (int i = 0; i < _maze.Width; i++)
+                for (int x = 0; x < _maze.Width; x++)
                 {
-                    if (_maze.Grid[i, j])
+                    if (_maze.Grid[x, y])
                     {
                         Console.Write("█");
                     }
-                    else if (_player.X == i && _player.Y == j)
+                    else if (_player.X == x && _player.Y == y)
                     {
                         Console.Write("P");
                     }
-                    else if (_maze.IsExit(i, j))
+                    else if (_maze.IsExit(x, y))
                     {
                         Console.Write("E");
                     }
