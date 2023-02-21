@@ -1,59 +1,65 @@
-﻿namespace ConsoleQuest
+﻿using System.Text;
+
+namespace ConsoleQuest
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static async Task Main()
         {
-            Console.WriteLine("Welcome to Console Quest: The Great Escape!");
-            Console.WriteLine("Use the arrow keys to navigate the maze and find the exit.");
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.CursorVisible = false;
+            var inputHandler = new InputHandler();
 
-            MazeGenerator mazeGenerator = new MazeGenerator(40, 20);
+            // Generate maze
+            var mazeGenerator = new MazeGenerator(25, 15);
             var maze = mazeGenerator.GenerateMaze();
-            Player player = new Player(maze.Start.x, maze.Start.y);
+            var player = new Player(maze.Start.x, maze.Start.y);
 
-            MazeRenderer mazeRenderer = new MazeRenderer(maze, player);
-            mazeRenderer.Render();
+            // Initialize player position
+            var playerPosition = maze.Start;
 
-            while (true)
+            // Start timer
+            var startTime = DateTime.Now;
+
+            // Render initial state of the game
+            var renderer = new MazeRenderer(maze, player);
+            renderer.Render();
+
+            // Wait for player to complete maze
+            while (!maze.IsExit(playerPosition.x, playerPosition.y))
             {
-                InputHandler inputHandler = new InputHandler();
+                // Get user input
                 var direction = await inputHandler.GetDirectionAsync();
-                int newX = player.X;
-                int newY = player.Y;
 
-                switch (direction)
+                // Calculate new player position
+                var newPosition = playerPosition switch
                 {
-                    case Direction.Left:
-                        newX--;  // decrement newX by 1
-                        break;
-                    case Direction.Right:
-                        newX++;  // increment newX by 1
-                        break;
-                    case Direction.Up:
-                        newY++;
-                        break;
-                    case Direction.Down:
-                        newY--;
-                        break;
-                }
+                    (int x, int y) pos when direction == Direction.Up => (x, y - 1),
+                    (int x, int y) pos when direction == Direction.Down => (x, y + 1),
+                    (int x, int y) pos when direction == Direction.Left => (x - 1, y),
+                    (int x, int y) pos when direction == Direction.Right => (x + 1, y),
+                    _ => playerPosition
+                };
 
-                if (maze.IsExit(newX, newY))
+                // Check if new position is valid
+                if (!maze.IsWall(newPosition.Item1, newPosition.Item2))
                 {
-                    Console.WriteLine("Congratulations, you escaped the maze!");
-                    break;
-                }
+                    // Update player position
+                    playerPosition = newPosition;
 
-                if (!maze.IsWall(newX, newY))
-                {
-                    player.X = newX;
-                    player.Y = newY;
+                    // Render updated state of the game
+                    renderer.Render();
                 }
-
-                mazeRenderer.Render();
             }
 
-            Console.ReadLine();
-        }
+            // End timer and calculate elapsed time
+            var endTime = DateTime.Now;
+            var elapsedTime = endTime - startTime;
 
+            // Display time elapsed to player
+            Console.SetCursorPosition(0, maze.Height + 2);
+            Console.WriteLine($"Congratulations! You completed the maze in {elapsedTime.TotalSeconds} seconds!");
+            Console.ReadKey();
+        }
     }
 }

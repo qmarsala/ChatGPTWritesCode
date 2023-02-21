@@ -39,3 +39,8 @@ Hunt and Kill: This algorithm starts with a random cell and creates a path until
 
 There are many other algorithms as well, and each one produces a different type of maze with different properties.
 ```
+
+Our game is looking great!  But to make it more fun I think we should time how long it takes for the player to complete the maze.  what do you think?
+```
+That's a great idea! Timing the player's completion of the maze can definitely add an extra level of challenge and motivation to the game. To implement this feature, you can record the time at the beginning of the game and then again when the player reaches the end of the maze. You can then calculate the difference between the two times to determine how long it took the player to complete the maze. You can display the time to the player at the end of the game, along with a message congratulating them on completing the maze.
+```
