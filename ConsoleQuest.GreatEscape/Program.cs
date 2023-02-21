@@ -20,6 +20,19 @@ namespace ConsoleQuest
 
         static async Task Main()
         {
+            Console.WriteLine("Welcome to Console Quest!");
+
+            Console.WriteLine("The objective of this game is to navigate through a maze to reach the end point.");
+            Console.WriteLine("To move through the maze, use the arrow keys on your keyboard.");
+            Console.WriteLine("You can only see a limited number of spaces around you, so make sure to plan your moves carefully.");
+            Console.WriteLine("Be careful not to hit any walls or you will have to start over!");
+            Console.WriteLine("Good luck!");
+
+            Console.WriteLine("Before we begin, please select a difficulty level:");
+            Console.WriteLine("- (1) Easy: Larger view radius around the player");
+            Console.WriteLine("- (2) Medium: Medium view radius around the player");
+            Console.WriteLine("- (3) Hard: Smaller view radius around the player");
+
             int difficulty = GetDifficulty();
             int renderRadius = difficulty == 1 ? 15 : difficulty == 2 ? 7 : 3;
 
