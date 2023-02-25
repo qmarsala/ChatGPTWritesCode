@@ -52,18 +52,7 @@ Node start = graph[0, 0];
 Node end = graph[9, 9];
 List<Node> path = pathfinder.FindPath(start, end);
 
-// Print the path
-if (path != null)
-{
-    Console.WriteLine("Path:");
-    foreach (Node node in path)
-    {
-        Console.WriteLine($"({node.x}, {node.y})");
-    }
-}
-else
-{
-    Console.WriteLine("No path found.");
-}
+var renderer = new Render(10, 10);
+renderer.DrawWorld(path, start, end);
 
 Console.ReadLine();
