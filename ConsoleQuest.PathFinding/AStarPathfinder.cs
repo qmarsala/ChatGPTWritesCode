@@ -2,73 +2,125 @@
 
 public class AStarPathfinder
 {
-    private List<Node> nodes;
+    private int width;
+    private int height;
+    private Node[,] world;
 
-    public AStarPathfinder(List<Node> nodes)
+    public AStarPathfinder(Node[,] world)
     {
-        this.nodes = nodes;
+        this.world = world;
+        this.width = world.GetLength(0);
+        this.height = world.GetLength(1);
     }
 
-    private float Heuristic(Node a, Node b)
+    private int Heuristic(Node a, Node b)
     {
         return Math.Abs(a.x - b.x) + Math.Abs(a.y - b.y);
     }
 
-    public List<Node> FindPath(Node startNode, Node endNode)
+    public List<Node> FindPath(Node start, Node goal)
     {
-        List<Node> path = new List<Node>();
-
-        Dictionary<Node, float> gScore = new Dictionary<Node, float>();
-        gScore[startNode] = 0f;
-
-        Dictionary<Node, float> fScore = new Dictionary<Node, float>();
-        fScore[startNode] = Heuristic(startNode, endNode);
-
         HashSet<Node> closedSet = new HashSet<Node>();
-        HashSet<Node> openSet = new HashSet<Node> { startNode };
+        HashSet<Node> openSet = new HashSet<Node>();
+        openSet.Add(start);
 
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>();
 
+        Dictionary<Node, int> gScore = new Dictionary<Node, int>();
+        gScore[start] = 0;
+
+        Dictionary<Node, int> fScore = new Dictionary<Node, int>();
+        fScore[start] = Heuristic(start, goal);
+
         while (openSet.Count > 0)
         {
-            Node current = null;
-            foreach (Node node in openSet)
-            {
-                if (current == null || fScore[node] < fScore[current] && node.IsTraversable())
-                {
-                    current = node;
-                }
-            }
+            Node current = GetNodeWithLowestFScore(openSet, fScore);
 
-            if (current == endNode)
+            if (current == goal)
             {
-                path = ReconstructPath(cameFrom, current);
-                break;
+                return ReconstructPath(cameFrom, current);
             }
 
             openSet.Remove(current);
             closedSet.Add(current);
 
-            foreach (Node neighbor in current.neighbors)
+            foreach (Node neighbor in GetNeighbors(current))
             {
                 if (closedSet.Contains(neighbor))
                 {
                     continue;
                 }
 
-                float tentativeGScore = gScore[current] + neighbor.cost;
+                int tentativeGScore = gScore[current] + 1;
 
                 if (!openSet.Contains(neighbor) || tentativeGScore < gScore[neighbor])
                 {
                     cameFrom[neighbor] = current;
                     gScore[neighbor] = tentativeGScore;
-                    fScore[neighbor] = tentativeGScore + Heuristic(neighbor, endNode);
-                    openSet.Add(neighbor);
+                    fScore[neighbor] = gScore[neighbor] + Heuristic(neighbor, goal);
+
+                    if (!openSet.Contains(neighbor))
+                    {
+                        openSet.Add(neighbor);
+                    }
                 }
             }
         }
 
-        return path;
+        return null;
+    }
+
+    private T GetNodeWithLowestFScore<T>(HashSet<T> openSet, Dictionary<T, int> fScore)
+    {
+        float lowestScore = float.MaxValue;
+        T lowestNode = default;
+
+        foreach (var node in openSet)
+        {
+            if (fScore.TryGetValue(node, out int score) && score < lowestScore)
+            {
+                lowestScore = score;
+                lowestNode = node;
+            }
+        }
+
+        return lowestNode;
+    }
+
+
+    public List<Node> GetNeighbors(Node node)
+    {
+        List<Node> neighbors = new List<Node>();
+
+        // Check all 8 directions around the node
+        for (int dx = -1; dx <= 1; dx++)
+        {
+            for (int dy = -1; dy <= 1; dy++)
+            {
+                // Skip the node itself
+                if (dx == 0 && dy == 0)
+                {
+                    continue;
+                }
+
+                int x = node.x + dx;
+                int y = node.y + dy;
+
+                // Make sure the neighboring node is within bounds
+                if (x >= 0 && x < width && y >= 0 && y < height)
+                {
+                    Node neighbor = world[x, y];
+
+                    // Check if the neighbor is a valid node (i.e. not an obstacle and not null)
+                    if (neighbor != null && neighbor.cost < 1)
+                    {
+                        neighbors.Add(neighbor);
+                    }
+                }
+            }
+        }
+
+        return neighbors;
     }
 
 

@@ -16,8 +16,6 @@ public class WorldRenderer<T>
         int width = world.GetLength(0);
         int height = world.GetLength(1);
 
-        Console.WriteLine("World:");
-
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -34,7 +32,7 @@ public class WorldRenderer<T>
                 }
                 else if (path != null && path.Contains(node))
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Green;
                 }
 
                 Console.Write(_nodeToCharFunc(node));

@@ -56,7 +56,7 @@ for (int x = 0; x < 10; x++)
 }
 
 // Find a path using A*
-AStarPathfinder pathfinder = new AStarPathfinder(graph.Cast<Node>().ToList());
+AStarPathfinder pathfinder = new AStarPathfinder(graph);
 Node start = graph[1, 1];
 Node end = graph[8, 8];
 List<Node> path = pathfinder.FindPath(start, end);
