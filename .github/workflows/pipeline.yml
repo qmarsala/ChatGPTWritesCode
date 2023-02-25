@@ -8,6 +8,7 @@ on:
 env:
   RUNTIME: win-x64
   CONFIGURATION: Release
+  GIT_VERSION_FULLSEMVER: ${{ steps.gitversion.outputs.fullSemVer }}
 
 jobs:
   build:
@@ -21,6 +22,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 7.0.x
+    
+    - name: Install GitVersion
+      uses: gittools/actions-gitversion@v0.9.5
 
     - name: Build and Publish
       run: dotnet publish -r ${{ env.RUNTIME }} -c ${{ env.CONFIGURATION }} --self-contained true
@@ -31,8 +35,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v1.0.0
-        release_name: v1.0.0
+        tag_name: ${{ env.GIT_VERSION_FULLSEMVER }}
+        release_name: ${{ env.GIT_VERSION_FULLSEMVER }}
         draft: false
         prerelease: false
 
