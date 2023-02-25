@@ -23,6 +23,10 @@ public class Node
         neighbors.Add(neighbor);
     }
 
+    public bool IsTraversable()
+     => cost < 1;
+
+
     public override bool Equals(object? obj) 
         => obj is Node n && n.x == x && n.y == y;
 }

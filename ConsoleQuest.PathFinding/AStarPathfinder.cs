@@ -34,7 +34,7 @@ public class AStarPathfinder
             Node current = null;
             foreach (Node node in openSet)
             {
-                if (current == null || fScore[node] < fScore[current])
+                if (current == null || fScore[node] < fScore[current] && node.IsTraversable())
                 {
                     current = node;
                 }

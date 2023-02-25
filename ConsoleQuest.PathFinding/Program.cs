@@ -57,11 +57,21 @@ for (int x = 0; x < 10; x++)
 
 // Find a path using A*
 AStarPathfinder pathfinder = new AStarPathfinder(graph.Cast<Node>().ToList());
-Node start = graph[0, 0];
-Node end = graph[9, 9];
+Node start = graph[1, 1];
+Node end = graph[8, 8];
 List<Node> path = pathfinder.FindPath(start, end);
 
-var renderer = new Render(10, 10);
-renderer.DrawWorld(path, start, end);
+WorldRenderer<Node> renderer = new WorldRenderer<Node>(node =>
+{
+    if (node.cost > 0)
+    {
+        return '#';
+    }
+    else
+    {
+        return '.';
+    }
+});
+renderer.Render(graph, start, end, path);
 
 Console.ReadLine();
