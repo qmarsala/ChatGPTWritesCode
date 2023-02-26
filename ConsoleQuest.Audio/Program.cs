@@ -4,7 +4,22 @@ using System.Text;
 
 //sampleRate* durationMs / 1000
 
-NoteData[] tune = new NoteData[]
+double A4 = 440; // frequency of A4
+double semitoneRatio = Math.Pow(2, 1.0 / 12); // ratio of frequency between adjacent semitones
+double frequency = A4; // start with frequency of A4
+double duration = 0.5; // duration in seconds
+double amplitude = 0.5; // amplitude between 0 and 1
+int numSamples = 22050; // number of samples per second
+int sampleRate = 44100; // sample rate in Hz
+
+var octave = new NoteData[12];
+for (int i = 0; i < 12; i++)
+{
+    octave[i] = new NoteData(frequency, (int)(numSamples * duration), sampleRate, amplitude);
+    frequency *= semitoneRatio; // multiply by semitone ratio to get frequency of next semitone
+}
+
+NoteData[] furEliseMaybe = new NoteData[]
 {
     new NoteData(659.25, 22050, 44100, 0.5), // E5
     new NoteData(659.25, 22050, 44100, 0.5), // E5
@@ -37,7 +52,7 @@ NoteData[] tune = new NoteData[]
     new NoteData(523.25, 22050, 44100, 0.5)
 };
 
-NoteData[] otherNoteData = new NoteData[]
+NoteData[] furEliseMaybleButLower = new NoteData[]
 {
     new NoteData(329.63, 22050, 44100, 0.5),
     new NoteData(329.63, 22050, 44100, 0.5),
@@ -81,36 +96,52 @@ var originalTune = new NoteData[]
 var input = ConsoleKey.Spacebar;
 while (input != ConsoleKey.Q)
 {
+    Console.Clear();
     Console.WriteLine("Select a sample:");
-    Console.WriteLine("1) 'fur elise'");
-    Console.WriteLine("2) 'fur elise' lower");
-    Console.WriteLine("3) 'original'");
+    Console.WriteLine("f) 'fur elise'");
+    Console.WriteLine("l) 'fur elise' lower");
+    Console.WriteLine("o) 'original'");
+    Console.WriteLine("1) a");
+    Console.WriteLine("2) b");
+    Console.WriteLine("3) c");
+    Console.WriteLine("4) d");
+    Console.WriteLine("5) e");
+    Console.WriteLine("6) f");
     Console.WriteLine("q) quit");
     input = Console.ReadKey(true).Key;
     var noteDatas = input switch
     {
-        ConsoleKey.D1 => tune,
-        ConsoleKey.D2 => otherNoteData,
-        ConsoleKey.D3 => originalTune,
+        ConsoleKey.F => furEliseMaybe,
+        ConsoleKey.L => furEliseMaybleButLower,
+        ConsoleKey.O => originalTune,
+        ConsoleKey.D1 => new NoteData[] { octave[0] },
+        ConsoleKey.D2 => new NoteData[] { octave[1] },
+        ConsoleKey.D3 => new NoteData[] { octave[2] },
+        ConsoleKey.D4 => new NoteData[] { octave[3] },
+        ConsoleKey.D5 => new NoteData[] { octave[4] },
+        ConsoleKey.D6 => new NoteData[] { octave[5] },
         _ => null
     };
     if (noteDatas is null) { continue; }
 
     var song = noteDatas
-        .SelectMany(x => GenerateNote(x.Frequency, x.NumSamples, x.SampleRate, x.Amplitude))
+        .SelectMany(x => GenerateNote(x))
         .ToArray();
     byte[] wavStream = AddWavHeaders(song, 44100, 2, 16);
 
-    using MemoryStream ms = new(wavStream);
-    using WaveStream waveStream = new WaveFileReader(ms);
-    using WaveOutEvent waveOut = new();
-    waveOut.Init(waveStream);
-    waveOut.Play();
-
-    while (waveOut.PlaybackState == PlaybackState.Playing)
+    Task.Run(() =>
     {
-        Thread.Sleep(100);
-    }
+        using MemoryStream ms = new(wavStream);
+        using WaveStream waveStream = new WaveFileReader(ms);
+        using WaveOutEvent waveOut = new();
+        waveOut.Init(waveStream);
+        waveOut.Play();
+
+        while (waveOut.PlaybackState == PlaybackState.Playing)
+        {
+            Thread.Sleep(100);
+        }
+    });
 }
 
 static byte[] AddWavHeaders(byte[] audioData, int sampleRate, int numChannels, int bitsPerSample)
@@ -141,21 +172,21 @@ static byte[] AddWavHeaders(byte[] audioData, int sampleRate, int numChannels, i
 }
 
 
-static byte[] GenerateNote(double frequency, int numSamples, int sampleRate, double amplitude)
+static byte[] GenerateNote(NoteData noteData)
 {
-    double[] sampleData = new double[numSamples];
+    double[] sampleData = new double[noteData.NumSamples];
 
-    double amplitudeScale = 32767 * amplitude;
-    double increment = 2 * Math.PI * frequency / sampleRate;
+    double amplitudeScale = 32767 * noteData.Amplitude;
+    double increment = 2 * Math.PI * noteData.Frequency / noteData.SampleRate;
     double currentAngle = 0;
 
-    for (int i = 0; i < numSamples; i++)
+    for (int i = 0; i < noteData.NumSamples; i++)
     {
         sampleData[i] = Math.Sin(currentAngle) * amplitudeScale;
         currentAngle += increment;
     }
 
-    byte[] byteData = new byte[numSamples * 2];
+    byte[] byteData = new byte[noteData.NumSamples * 2];
     int index = 0;
 
     foreach (double sample in sampleData)
