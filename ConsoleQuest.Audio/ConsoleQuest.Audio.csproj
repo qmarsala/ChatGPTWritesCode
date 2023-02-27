@@ -5,6 +5,15 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>1.0.0.0</Version>
+    <Authors>QChat</Authors>
+    <Company>QAICode</Company>
+    <Product>ConsoleQuest.Audio</Product>
+    <PackageId>ConsoleQuest.Audio</PackageId>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Description>just run it man, it plays music</Description>
+    <PackageReleaseNotes>Release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
